@@ -11,6 +11,7 @@ builder.Services.AddRazorComponents()
 // הוספת Blazored LocalStorage לשירותי התלותים
 builder.Services.AddBlazoredLocalStorage();
 builder.Services.AddScoped<TranslationService>();
+builder.Services.AddSingleton<TaskService>();
 
 var app = builder.Build();
 

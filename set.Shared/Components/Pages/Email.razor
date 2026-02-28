@@ -5,6 +5,7 @@
 @inject Blazored.LocalStorage.ILocalStorageService LocalStorage
 @implements IDisposable
 @inject TranslationService TranslationService
+@inject TaskService TaskService
 
 <h1>Email Registration Page</h1>
 
@@ -42,10 +43,10 @@
     <ul class="list-group mt-3">
         @if (tasks != null)
         {
-            @foreach (var task in tasks)
+            @foreach (var taskText in tasks)
             {
                 <li class="list-group-item">
-                    <strong>משימה:</strong> @task <br />
+                    <strong>משימה:</strong> @taskText.ToString() <br />
                     <small class="text-muted">סטטוס: בטיפול</small>
                 </li>
             }
@@ -61,7 +62,8 @@
     private CancellationTokenSource cts = new CancellationTokenSource();
 
     private string Text = string.Empty;
-    private List<string> tasks = new List<string>();
+    // בהנחה ש-ExtractTasks מחזירה רשימה של אובייקטים עם Name ו-Description
+    private List<dynamic> tasks = new List<dynamic>();
     
     private EmailListener? listener; // הגדרת המאזין למייל
     private string? enText;          // הגדרת משתנה לטקסט המתורגם
@@ -99,14 +101,22 @@
     {
         if (string.IsNullOrEmpty(text)) return;
 
-        // קריאה אסינכרונית לשירות התרגום
         enText = await TranslationService.TranslateToEnglishAsync(text);
-        
-        // יצירת מופע של המחלקה שמחלצת משימות
         var extractor = new Models.TaskExtractor();
-        tasks = extractor.ExtractTasks(enText ?? string.Empty);
         
-        StateHasChanged(); // עדכון התצוגה
+        // כאן התיקון: extractor.ExtractTasks מחזיר List<string>
+        var extractedStrings = extractor.ExtractTasks(enText ?? string.Empty);
+
+        foreach (var taskText in extractedStrings)
+        {
+            // אנחנו שולחים את הטקסט בתור שם המשימה, ותיאור ריק
+            TaskService.AddTask(taskText, enText ?? string.Empty); 
+        }
+
+        // עדכון הרשימה המקומית לתצוגה בדף האימייל (אם תרצה)
+        tasks = extractedStrings.Cast<dynamic>().ToList(); 
+        
+        StateHasChanged();
     }
 
     public void Dispose()
