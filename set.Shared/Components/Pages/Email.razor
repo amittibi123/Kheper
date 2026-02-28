@@ -1,35 +1,78 @@
 @page "/email"
+@using MimeKit
+@using System.Threading
+@using Models
 @inject Blazored.LocalStorage.ILocalStorageService LocalStorage
+@implements IDisposable
 
 <h1>Email Registration Page</h1>
-
-<p>
-    This is the email registration page. You can register your email here.
-</p>
 
 <div class="mb-3">
     <label for="emailInput" class="form-label">Email address</label>
     <input type="email" class="form-control" id="emailInput" placeholder="enter your email" @bind="email">
     <input type="password" class="form-control mt-2" id="passwordInput" placeholder="enter your password" @bind="password">
-    <button class="btn btn-primary mt-2" @onclick="RegisterEmail">Register</button>
-    <p class="text-success">@email, @password</p>
+    <button class="btn btn-primary mt-2" @onclick="StartService" disabled="@isListening">
+        @(isListening ? "Listening..." : "Register & Start")
+    </button>
 </div>
+
+<h3>Received Emails (@emails.Count)</h3>
+<ul class="list-group">
+    @foreach (var mail in emails)
+    {
+        <li class="list-group-item">
+            <strong>From:</strong> @mail.From <br />
+            <strong>Subject:</strong> @mail.Subject <br />
+            <small class="text-muted">@mail.Date.ToString("HH:mm:ss")</small>
+        </li>
+    }
+    @if (emails.Count == 0)
+    {
+        <li class="list-group-item text-center">No emails received yet.</li>
+    }
+</ul>
 
 @code {
     private string? email;
     private string? password;
+    private bool isListening = false;
+    private List<MimeMessage> emails = new List<MimeMessage>();
+    private CancellationTokenSource cts = new CancellationTokenSource();
 
+    private EmailListener? listener;
     protected override async Task OnInitializedAsync()
     {
-        // טוען את האימייל מה־LocalStorage אם יש כזה
         email = await LocalStorage.GetItemAsync<string>("userEmail") ?? string.Empty;
         password = await LocalStorage.GetItemAsync<string>("userPassword") ?? string.Empty;
     }
 
-    private async Task RegisterEmail()
+    private async Task StartService()
     {
-        // שומר את האימייל ב־LocalStorage
+        if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password)) return;
+
         await LocalStorage.SetItemAsync("userEmail", email);
         await LocalStorage.SetItemAsync("userPassword", password);
+
+        isListening = true;
+
+        
+        listener = new EmailListener(email, password);
+
+        listener.OnNewEmailReceived += async (message) =>
+        {
+            await InvokeAsync(() =>
+            {
+                emails.Insert(0, message);
+                StateHasChanged();
+            });
+        };
+
+        _ = Task.Run(() => listener.StartListeningAsync(cts.Token));
+    }
+
+    public void Dispose()
+    {
+        cts.Cancel();
+        cts.Dispose();
     }
 }
