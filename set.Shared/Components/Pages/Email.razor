@@ -4,6 +4,7 @@
 @using Models
 @inject Blazored.LocalStorage.ILocalStorageService LocalStorage
 @implements IDisposable
+@inject TranslationService TranslationService
 
 <h1>Email Registration Page</h1>
 
@@ -32,6 +33,26 @@
     }
 </ul>
 
+<div class="mb-3">
+    <label for="nlpInput" class="form-label">NLP Input</label>
+    <input type="text" class="form-control" id="nlpInput" placeholder="enter text for NLP processing" @bind="Text">
+    <button class="btn btn-secondary mt-2" @onclick="() => NLP(Text)" disabled="@string.IsNullOrEmpty(Text)">
+        Process with NLP
+    </button>
+    <ul class="list-group mt-3">
+        @if (tasks != null)
+        {
+            @foreach (var task in tasks)
+            {
+                <li class="list-group-item">
+                    <strong>משימה:</strong> @task <br />
+                    <small class="text-muted">סטטוס: בטיפול</small>
+                </li>
+            }
+        }
+    </ul>
+</div>
+
 @code {
     private string? email;
     private string? password;
@@ -39,7 +60,11 @@
     private List<MimeMessage> emails = new List<MimeMessage>();
     private CancellationTokenSource cts = new CancellationTokenSource();
 
-    private EmailListener? listener;
+    private string Text = string.Empty;
+    private List<string> tasks = new List<string>();
+    
+    private EmailListener? listener; // הגדרת המאזין למייל
+    private string? enText;          // הגדרת משתנה לטקסט המתורגם
     protected override async Task OnInitializedAsync()
     {
         email = await LocalStorage.GetItemAsync<string>("userEmail") ?? string.Empty;
@@ -68,6 +93,20 @@
         };
 
         _ = Task.Run(() => listener.StartListeningAsync(cts.Token));
+    }
+
+    private async Task NLP(string text)
+    {
+        if (string.IsNullOrEmpty(text)) return;
+
+        // קריאה אסינכרונית לשירות התרגום
+        enText = await TranslationService.TranslateToEnglishAsync(text);
+        
+        // יצירת מופע של המחלקה שמחלצת משימות
+        var extractor = new Models.TaskExtractor();
+        tasks = extractor.ExtractTasks(enText ?? string.Empty);
+        
+        StateHasChanged(); // עדכון התצוגה
     }
 
     public void Dispose()

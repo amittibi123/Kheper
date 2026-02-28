@@ -41,45 +41,61 @@ namespace Models
             "watch", "listen", "play", "exercise", "run", "jump", "drive", "park", "cleanse", "report"
         };
 
-
         public List<string> ExtractTasks(string input)
         {
             var tasks = new List<string>();
+            // ניקוי סימני פיסוק בסיסיים והפיכה לאותיות קטנות לבדיקה
             string cleanInput = input.Replace("?", "").Replace("!", "").Replace(".", "");
-            var tempList = new List<string> { cleanInput };
+            
+            // 1. פיצול לפי רשימת ה-splitters שכבר יש לך
+            var parts = SplitInput(cleanInput);
 
+            foreach (var part in parts)
+            {
+                string lowerPart = part.ToLower();
+                int earliestVerbIndex = -1;
+                string foundVerb = "";
+
+                // 2. מציאת המיקום של הפועל הראשון בחלק הזה
+                foreach (var verb in verbs)
+                {
+                    int index = lowerPart.IndexOf(verb);
+                    if (index != -1 && (earliestVerbIndex == -1 || index < earliestVerbIndex))
+                    {
+                        earliestVerbIndex = index;
+                        foundVerb = verb;
+                    }
+                }
+
+                // 3. אם נמצא פועל, חתוך את הטקסט שמתחיל ממנו
+                if (earliestVerbIndex != -1)
+                {
+                    // חותך מהפועל ועד סוף המשפט - זה יוריד את ה-"Hey what's up"
+                    string actualTask = part.Substring(earliestVerbIndex);
+                    tasks.Add(actualTask.Trim());
+                }
+            }
+
+            return tasks;
+        }
+
+        // מתודת עזר לפיצול (הלוגיקה המקורית שלך)
+        private List<string> SplitInput(string input)
+        {
+            var tempList = new List<string> { input };
             foreach (var splitter in splitters)
             {
                 var newList = new List<string>();
                 foreach (var part in tempList)
                 {
                     if (part.Contains(splitter))
-                    {
-                        var splitParts = part.Split(new string[] { splitter }, StringSplitOptions.RemoveEmptyEntries);
-                        foreach (var sp in splitParts)
-                            newList.Add(sp.Trim());
-                    }
+                        newList.AddRange(part.Split(new[] { splitter }, StringSplitOptions.RemoveEmptyEntries));
                     else
-                    {
-                        newList.Add(part.Trim());
-                    }
+                        newList.Add(part);
                 }
                 tempList = newList;
             }
-            foreach (var part in tempList)
-            {
-                foreach (var verb in verbs)
-                {
-                    if (part.ToLower().Contains(verb))
-                    {
-                        tasks.Add(part.Trim());
-                        break;
-                    }
-                }
-            }
-
-            return tasks;
+            return tempList;
         }
     }
-
 }
