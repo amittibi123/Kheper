@@ -1,0 +1,35 @@
+@page "/email"
+@inject Blazored.LocalStorage.ILocalStorageService LocalStorage
+
+<h1>Email Registration Page</h1>
+
+<p>
+    This is the email registration page. You can register your email here.
+</p>
+
+<div class="mb-3">
+    <label for="emailInput" class="form-label">Email address</label>
+    <input type="email" class="form-control" id="emailInput" placeholder="enter your email" @bind="email">
+    <input type="password" class="form-control mt-2" id="passwordInput" placeholder="enter your password" @bind="password">
+    <button class="btn btn-primary mt-2" @onclick="RegisterEmail">Register</button>
+    <p class="text-success">@email, @password</p>
+</div>
+
+@code {
+    private string? email;
+    private string? password;
+
+    protected override async Task OnInitializedAsync()
+    {
+        // טוען את האימייל מה־LocalStorage אם יש כזה
+        email = await LocalStorage.GetItemAsync<string>("userEmail") ?? string.Empty;
+        password = await LocalStorage.GetItemAsync<string>("userPassword") ?? string.Empty;
+    }
+
+    private async Task RegisterEmail()
+    {
+        // שומר את האימייל ב־LocalStorage
+        await LocalStorage.SetItemAsync("userEmail", email);
+        await LocalStorage.SetItemAsync("userPassword", password);
+    }
+}
