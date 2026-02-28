@@ -1,0 +1,24 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Run App (MAUI)",
+            "type": "shell",
+            "command": "dotnet run -f net10.0-windows10.0.19041.0 -p:WindowsPackageType=None",
+            "options": {
+                "cwd": "${workspaceFolder}/set.App"
+            },
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "Run Web (Watch)",
+            "type": "shell",
+            "command": "dotnet watch",
+            "options": {
+                "cwd": "${workspaceFolder}/set.Web"
+            },
+            "isBackground": true,
+            "problemMatcher": "$msCompile"
+        }
+    ]
+}
