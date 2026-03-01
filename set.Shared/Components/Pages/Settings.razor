@@ -6,6 +6,7 @@
 @using System.Threading.Tasks
 @inject LanguageService LangService
 @inject IStringLocalizerFactory LocalizerFactory
+@inject NavigationState NavState
 
 @if (L != null)
 {
@@ -37,6 +38,7 @@
 
     protected override void OnInitialized()
     {
+        NavState.SetSettingsMode(true);
         
         L = LocalizerFactory.Create("Resources.AppResources", "set.Shared");
         
@@ -107,6 +109,7 @@
 
     public void Dispose()
     {
+        NavState.SetSettingsMode(false);
         LangService.OnLanguageChanged -= HandleLanguageChanged;
     }
 }
