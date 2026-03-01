@@ -2,6 +2,10 @@
 @inject IJSRuntime JSRuntime
 @implements IDisposable
 @inject Blazored.LocalStorage.ILocalStorageService LocalStorage
+@using Microsoft.Extensions.Localization
+@inject LanguageService LangService
+@inject IStringLocalizerFactory LocalizerFactory
+
 
 <h1>Settings</h1>
 <p>Toggle Dark Mode:</p>
@@ -14,6 +18,18 @@
     </span>
 </label>
 
+@{
+    var L = LocalizerFactory.Create("Resources.AppResources", "set.Shared");
+}
+
+<div class="card p-3 shadow-sm">
+    <label for="langSelect" class="form-label fw-bold">@L["SelectLanguage"]</label>
+    <select id="langSelect" class="form-select" @onchange="OnLanguageSelected">
+        <option value="en-US" selected="@(LangService.GetCurrentLanguage() == "en-US")">English</option>
+        <option value="he-IL" selected="@(LangService.GetCurrentLanguage() == "he-IL")">עברית</option>
+    </select>
+</div>
+
 @code {
     private bool isDarkMode;
 
@@ -22,6 +38,15 @@
     {
         await JSRuntime.InvokeVoidAsync("themeToggle.setTheme", isDarkMode);
         await LocalStorage.SetItemAsync("isDarkMode", isDarkMode);
+    }
+
+    private void OnLanguageSelected(ChangeEventArgs e)
+    {
+        string? selectedLanguage = e.Value?.ToString();
+        if (!string.IsNullOrEmpty(selectedLanguage))
+        {
+            LangService.SetLanguage(selectedLanguage);
+        }
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -56,4 +81,6 @@
     }
 
     public void Dispose() { }
+
+    
 }

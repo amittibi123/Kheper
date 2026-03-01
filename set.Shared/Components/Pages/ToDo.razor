@@ -1,34 +1,44 @@
 @page "/todo"
 @using System.Threading.Tasks
+@using Microsoft.Extensions.Localization
+@using System.Globalization
+@* הזרקת המפעל ליצירת לוקלייזר - זה עוקף את בעיית ה-AppResources החסר *@
+@inject IStringLocalizerFactory LocalizerFactory
 @inject Blazored.LocalStorage.ILocalStorageService LocalStorage
 @implements IDisposable
 @inject TaskService TaskService
+@inject LanguageService LangService
 
-<h1>To-Do List</h1>
+@* בדיקה שהלוקלייזר מוכן לפני הציור *@
+@if (L != null)
+{
+    <h1>@L["TodoTitle"]</h1>
 
+    <div class="mb-3 p-3 border rounded bg-light">
+        <input type="text" class="form-control mb-2" placeholder="@L["PlaceholderTask"]" @bind="newTask">
+        <input type="text" class="form-control mb-2" placeholder="@L["PlaceholderDesc"]" @bind="taskDescription">
+        <button class="btn btn-primary w-100" @onclick="AddTask">@L["AddBtn"]</button>
+    </div>
 
-<div class="mb-3 p-3 border rounded bg-light">
-    <input type="text" class="form-control mb-2" placeholder="Task name" @bind="newTask">
-    <input type="text" class="form-control mb-2" placeholder="Description" @bind="taskDescription">
-    <button class="btn btn-primary w-100" @onclick="AddTask">Add Task</button>
-</div>
+    <ul class="list-group">
+        @foreach (var item in tasks)
+        {
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <div>
+                    <strong>@item.Task</strong>: @item.Description
+                </div>
+                <button class="btn btn-sm btn-danger" @onclick="() => RemoveTask(item)">@L["DeleteBtn"]</button>
+            </li>
+        }
+    </ul>
 
+    <button class="btn btn-warning mt-2" @onclick="ClearTasks">@L["ClearAllBtn"]</button>
 
-<ul class="list-group">
-    @foreach (var item in tasks)
-    {
-        <li class="list-group-item d-flex justify-content-between align-items-center">
-            <div>
-                <strong>@item.Task</strong>: @item.Description
-            </div>
-            <button class="btn btn-sm btn-danger" @onclick="() => RemoveTask(item)">Delete</button>
-        </li>
-    }
-</ul>
-
-<button class="btn btn-warning mt-2" @onclick="ClearTasks">Clear All Tasks</button>
+}
 
 @code {
+    private IStringLocalizer? L;
+
     public class TodoTask
     {
         public string Task { get; set; } = string.Empty;
@@ -39,54 +49,61 @@
     private string? taskDescription;
     private List<TodoTask> tasks = new();
 
-    protected override async Task OnInitializedAsync()
+    protected override void OnInitialized()
     {
-        
-        tasks = new List<TodoTask>();
+        // יצירה ראשונית
+        L = LocalizerFactory.Create("Resources.AppResources", "set.Shared");
 
+        // הרשמה לאירוע שינוי שפה
+        LangService.OnLanguageChanged += HandleLanguageChanged;
         
         TaskService.OnTaskAdded += HandleTaskAdded;
+    }
 
-        
+    protected override async Task OnInitializedAsync()
+    {
+        tasks = new List<TodoTask>();
         await SyncTasksFromService();
     }
 
+    private void ChangeLanguage(string cultureCode)
+    {
+        var culture = new CultureInfo(cultureCode);
+        CultureInfo.DefaultThreadCurrentCulture = culture;
+        CultureInfo.DefaultThreadCurrentUICulture = culture;
+        
+        // השורה הקריטית: יצירת הלוקלייזר מחדש לפי התרבות החדשה שקבענו
+        L = LocalizerFactory.Create("Resources.AppResources", "set.Shared");
+        
+        StateHasChanged(); // רענון התצוגה
+    }
+
+    // --- שאר הקוד של ה-Todo נשאר כפי שהיה ---
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        
         if (firstRender)
         {
-            
             var savedTasks = await LocalStorage.GetItemAsync<List<TodoTask>>("tasks");
-            
             if (savedTasks != null)
             {
                 tasks = savedTasks;
-                
                 StateHasChanged(); 
             }
         }
     }
 
-    private async void HandleTaskAdded()
-    {
-        await SyncTasksFromService();
-    }
+    private async void HandleTaskAdded() => await SyncTasksFromService();
 
     private async Task SyncTasksFromService()
     {
-        
         if (TaskService.AllTasks.Any())
         {
             await InvokeAsync(async () =>
             {
-                
                 foreach (var t in TaskService.AllTasks.ToList())
                 {
                     await AddTask(t.Name, t.Desc);
                 }
-
-                
                 TaskService.AllTasks.Clear();
                 StateHasChanged();
             });
@@ -107,11 +124,7 @@
     {
         if (!string.IsNullOrWhiteSpace(taskName))
         {
-            tasks.Add(new TodoTask
-            {
-                Task = taskName,
-                Description = description
-            });
+            tasks.Add(new TodoTask { Task = taskName, Description = description });
             await LocalStorage.SetItemAsync("tasks", tasks);
         }
     }
@@ -128,8 +141,17 @@
         await LocalStorage.SetItemAsync("tasks", tasks);
     }
 
+    private void HandleLanguageChanged()
+    {
+        // כשהשפה משתנה ב-Service, אנחנו מעדכנים את ה-L המקומי ומרעננים
+        L = LocalizerFactory.Create("Resources.AppResources", "set.Shared");
+        InvokeAsync(StateHasChanged);
+    }
+
     public void Dispose()
     {
+        // חשוב להסיר את ההרשמה כדי למנוע זליגת זיכרון
+        LangService.OnLanguageChanged -= HandleLanguageChanged;
         TaskService.OnTaskAdded -= HandleTaskAdded;
     }
 }
