@@ -6,14 +6,14 @@
 
 <h1>To-Do List</h1>
 
-@* אזור ההוספה הידנית *@
+
 <div class="mb-3 p-3 border rounded bg-light">
     <input type="text" class="form-control mb-2" placeholder="Task name" @bind="newTask">
     <input type="text" class="form-control mb-2" placeholder="Description" @bind="taskDescription">
     <button class="btn btn-primary w-100" @onclick="AddTask">Add Task</button>
 </div>
 
-@* רשימה אחת מאוחדת *@
+
 <ul class="list-group">
     @foreach (var item in tasks)
     {
@@ -41,28 +41,28 @@
 
     protected override async Task OnInitializedAsync()
     {
-        // 1. אתחול רשימה ריקה (כדי שלא תהיה שגיאת Null ב-Render)
+        
         tasks = new List<TodoTask>();
 
-        // 2. רישום לאירוע - זה בטוח לעשות כאן
+        
         TaskService.OnTaskAdded += HandleTaskAdded;
 
-        // 3. סנכרון מהשירות (אם מדובר בשירות שנמצא בזיכרון השרת)
+        
         await SyncTasksFromService();
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        // הקוד כאן רץ רק בדפדפן, לכן LocalStorage יעבוד
+        
         if (firstRender)
         {
-            // טעינה מה-LocalStorage
+            
             var savedTasks = await LocalStorage.GetItemAsync<List<TodoTask>>("tasks");
             
             if (savedTasks != null)
             {
                 tasks = savedTasks;
-                // חייבים לקרוא ל-StateHasChanged כי אנחנו מחוץ למחזור החיים הרגיל של Init
+                
                 StateHasChanged(); 
             }
         }
@@ -75,18 +75,18 @@
 
     private async Task SyncTasksFromService()
     {
-        // אם יש משימות בשירות
+        
         if (TaskService.AllTasks.Any())
         {
             await InvokeAsync(async () =>
             {
-                // עוברים על כל המשימות בשירות
+                
                 foreach (var t in TaskService.AllTasks.ToList())
                 {
                     await AddTask(t.Name, t.Desc);
                 }
 
-                // מנקים את השירות כדי שלא יתווספו שוב
+                
                 TaskService.AllTasks.Clear();
                 StateHasChanged();
             });

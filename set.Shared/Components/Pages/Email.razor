@@ -7,6 +7,7 @@
 @inject TranslationService TranslationService
 @inject TaskService TaskService
 
+
 <h1>Email Registration Page</h1>
 
 <div class="mb-3">
@@ -62,11 +63,11 @@
     private CancellationTokenSource cts = new CancellationTokenSource();
 
     private string Text = string.Empty;
-    // בהנחה ש-ExtractTasks מחזירה רשימה של אובייקטים עם Name ו-Description
+    
     private List<dynamic> tasks = new List<dynamic>();
     
-    private EmailListener? listener; // הגדרת המאזין למייל
-    private string? enText;          // הגדרת משתנה לטקסט המתורגם
+    private EmailListener? listener; 
+    private string? enText;          
 
     protected override async Task OnAfterRenderAsync(bool firstRender){
         if (firstRender){
@@ -106,16 +107,16 @@
         enText = await TranslationService.TranslateToEnglishAsync(text);
         var extractor = new Models.TaskExtractor();
         
-        // כאן התיקון: extractor.ExtractTasks מחזיר List<string>
+        
         var extractedStrings = extractor.ExtractTasks(enText ?? string.Empty);
 
         foreach (var taskText in extractedStrings)
         {
-            // אנחנו שולחים את הטקסט בתור שם המשימה, ותיאור ריק
+            
             TaskService.AddTask(taskText, enText ?? string.Empty); 
         }
 
-        // עדכון הרשימה המקומית לתצוגה בדף האימייל (אם תרצה)
+        
         tasks = extractedStrings.Cast<dynamic>().ToList(); 
         
         StateHasChanged();

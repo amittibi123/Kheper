@@ -1,3 +1,4 @@
+/* הבהיר נשאר זהה */
 .page {
     position: relative;
     display: flex;
@@ -21,26 +22,26 @@ main {
     align-items: center;
 }
 
-    .top-row ::deep a, .top-row ::deep .btn-link {
-        white-space: nowrap;
-        margin-left: 1.5rem;
-        text-decoration: none;
-    }
+.top-row ::deep a, .top-row ::deep .btn-link {
+    white-space: nowrap;
+    margin-left: 1.5rem;
+    text-decoration: none;
+}
 
-    .top-row ::deep a:hover, .top-row ::deep .btn-link:hover {
-        text-decoration: underline;
-    }
+.top-row ::deep a:hover, .top-row ::deep .btn-link:hover {
+    text-decoration: underline;
+}
 
-    .top-row ::deep a:first-child {
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
+.top-row ::deep a:first-child {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 
+/* שאר המדיה קוויריז נשארים זהים */
 @media (max-width: 640.98px) {
     .top-row {
         justify-content: space-between;
     }
-
     .top-row ::deep a, .top-row ::deep .btn-link {
         margin-left: 0;
     }
@@ -50,28 +51,114 @@ main {
     .page {
         flex-direction: row;
     }
-
     .sidebar {
         width: 250px;
         height: 100vh;
         position: sticky;
         top: 0;
     }
-
     .top-row {
         position: sticky;
         top: 0;
         z-index: 1;
     }
-
     .top-row.auth ::deep a:first-child {
         flex: 1;
         text-align: right;
         width: 0;
     }
-
     .top-row, article {
         padding-left: 2rem !important;
         padding-right: 1.5rem !important;
     }
+}
+
+/* מצב כהה - שינויים כלליים */
+body.dark-mode {
+    background-color: #121212;
+    color: #ffffff; /* משנה את צבע הטקסט הדיפולטיבי ללבן */
+}
+
+/* שינוי צבע הקישורים בתפריט הצד (NavMenu) */
+body.dark-mode .nav-item ::deep .nav-link {
+    color: #e0e0e0 !important;
+}
+
+/* צבע קישור פעיל בתפריט */
+body.dark-mode .nav-item ::deep a.active {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: #ffffff !important;
+}
+
+/* הבר העליון והקישורים בתוכו */
+body.dark-mode .top-row {
+    background-color: #2d2d30;
+    border-bottom: 1px solid #454545;
+    color: #ffffff;
+}
+
+body.dark-mode .top-row ::deep a, 
+body.dark-mode .top-row ::deep .btn-link {
+    color: #ffffff !important;
+}
+
+/* הרקע של התוכן המרכזי */
+body.dark-mode main {
+    background-color: #1e1e1e;
+    color: #ffffff;
+}
+
+/* הגדרות גלובליות לטקסט בתוך ה-Article */
+body.dark-mode article {
+    color: #ffffff;
+}
+
+/* צבע הכותרות */
+body.dark-mode h1, body.dark-mode h2, body.dark-mode h3, body.dark-mode h4 {
+    color: #ffffff;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: .4s;
+  border-radius: 34px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  transition: .4s;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:checked + .slider:before {
+  transform: translateX(26px);
 }

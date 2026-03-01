@@ -1,0 +1,59 @@
+@page "/Settings"
+@inject IJSRuntime JSRuntime
+@implements IDisposable
+@inject Blazored.LocalStorage.ILocalStorageService LocalStorage
+
+<h1>Settings</h1>
+<p>Toggle Dark Mode:</p>
+<label class="switch">
+    <input type="checkbox" @bind="isDarkMode" @bind:after="OnThemeChanged">
+    <span class="slider">
+        <span class="knob">
+            @(isDarkMode ? "🌙" : "☀️")
+        </span>
+    </span>
+</label>
+
+@code {
+    private bool isDarkMode;
+
+    // פונקציה שנקראת בכל פעם שהמשתמש לוחץ על הסוויץ'
+    private async Task OnThemeChanged()
+    {
+        await JSRuntime.InvokeVoidAsync("themeToggle.setTheme", isDarkMode);
+        await LocalStorage.SetItemAsync("isDarkMode", isDarkMode);
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            try 
+            {
+                // טעינת הקובץ
+                await JSRuntime.InvokeVoidAsync("import", "./_content/set.Shared/ThemeToggle.js");
+
+                var savedTheme = await LocalStorage.GetItemAsync<bool?>("isDarkMode");
+
+                if (savedTheme.HasValue)
+                {
+                    isDarkMode = savedTheme.Value;
+                }
+                else
+                {
+                    // בדיקת העדפת מערכת אם אין ערך שמור
+                    isDarkMode = await JSRuntime.InvokeAsync<bool>("eval", "window.matchMedia('(prefers-color-scheme: dark)').matches");
+                }
+
+                await JSRuntime.InvokeVoidAsync("themeToggle.setTheme", isDarkMode);
+                StateHasChanged(); 
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error loading theme: {ex.Message}");
+            }
+        }
+    }
+
+    public void Dispose() { }
+}
