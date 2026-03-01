@@ -41,15 +41,31 @@
 
     protected override async Task OnInitializedAsync()
     {
-        // 1. טעינה מה-LocalStorage
-        var savedTasks = await LocalStorage.GetItemAsync<List<TodoTask>>("tasks");
-        tasks = savedTasks ?? new List<TodoTask>();
+        // 1. אתחול רשימה ריקה (כדי שלא תהיה שגיאת Null ב-Render)
+        tasks = new List<TodoTask>();
 
-        // 2. רישום לאירוע
+        // 2. רישום לאירוע - זה בטוח לעשות כאן
         TaskService.OnTaskAdded += HandleTaskAdded;
 
-        // 3. בדיקה אם כבר יש משימות שמחכות בשירות ברגע שהדף נטען
+        // 3. סנכרון מהשירות (אם מדובר בשירות שנמצא בזיכרון השרת)
         await SyncTasksFromService();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        // הקוד כאן רץ רק בדפדפן, לכן LocalStorage יעבוד
+        if (firstRender)
+        {
+            // טעינה מה-LocalStorage
+            var savedTasks = await LocalStorage.GetItemAsync<List<TodoTask>>("tasks");
+            
+            if (savedTasks != null)
+            {
+                tasks = savedTasks;
+                // חייבים לקרוא ל-StateHasChanged כי אנחנו מחוץ למחזור החיים הרגיל של Init
+                StateHasChanged(); 
+            }
+        }
     }
 
     private async void HandleTaskAdded()

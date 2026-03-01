@@ -67,10 +67,12 @@
     
     private EmailListener? listener; // הגדרת המאזין למייל
     private string? enText;          // הגדרת משתנה לטקסט המתורגם
-    protected override async Task OnInitializedAsync()
-    {
-        email = await LocalStorage.GetItemAsync<string>("userEmail") ?? string.Empty;
-        password = await LocalStorage.GetItemAsync<string>("userPassword") ?? string.Empty;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender){
+        if (firstRender){
+            email = await LocalStorage.GetItemAsync<string>("userEmail") ?? string.Empty;
+            password = await LocalStorage.GetItemAsync<string>("userPassword") ?? string.Empty;
+        }
     }
 
     private async Task StartService()
