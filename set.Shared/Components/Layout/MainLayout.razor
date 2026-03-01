@@ -3,6 +3,9 @@
 @inject Blazored.LocalStorage.ILocalStorageService LocalStorage
 @inject NavigationManager Nav
 @implements IDisposable
+@using System.Globalization
+@inject Blazored.LocalStorage.ILocalStorageService LocalStorage
+@inject LanguageService LangService
 
 <div class="page">
     <div class="sidebar">
@@ -52,6 +55,19 @@
                 {
                     // ברירת מחדל לפי הגדרות דפדפן אם אין ערך שמור
                     isDarkMode = await JSRuntime.InvokeAsync<bool>("eval", "window.matchMedia('(prefers-color-scheme: dark)').matches");
+                }
+
+                var savedLang = await LocalStorage.GetItemAsync<string>("selectedLanguage");
+
+                // 2. אם מצאנו שפה שמורה, נעדכן את ה-Service
+                if (!string.IsNullOrEmpty(savedLang))
+                {
+                    LangService.SetLanguage(savedLang);
+                }
+                else 
+                {
+                    // אם אין כלום, נשים אנגלית כברירת מחדל
+                    LangService.SetLanguage("en-US");
                 }
 
                 await JSRuntime.InvokeVoidAsync("themeToggle.setTheme", isDarkMode);

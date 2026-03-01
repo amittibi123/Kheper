@@ -185,4 +185,16 @@
     <value>סטטוס: בטיפול</value>
     <comment/>
   </data>
+  <data name="Settings" xml:space="preserve">
+    <value>הגדרות</value>
+    <comment/>
+  </data>
+  <data name="ToggleDarkMode" xml:space="preserve">
+    <value>החלף מצב כהה</value>
+    <comment/>
+  </data>
+  <data name="SelectLanguage" xml:space="preserve">
+    <value>בחר שפה</value>
+    <comment/>
+  </data>
 </root>

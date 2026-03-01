@@ -185,4 +185,16 @@
     <value>Status: Processing</value>
     <comment/>
   </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Settings</value>
+    <comment/>
+  </data>
+  <data name="ToggleDarkMode" xml:space="preserve">
+    <value>Toggle Dark Mode:</value>
+    <comment/>
+  </data>
+  <data name="SelectLanguage" xml:space="preserve">
+    <value>SelectLanguage</value>
+    <comment/>
+  </data>
 </root>
