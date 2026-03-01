@@ -2,60 +2,67 @@
 @using MimeKit
 @using System.Threading
 @using Models
+@using Microsoft.Extensions.Localization
+@using System.Globalization
 @inject Blazored.LocalStorage.ILocalStorageService LocalStorage
 @implements IDisposable
 @inject TranslationService TranslationService
 @inject TaskService TaskService
+@inject IStringLocalizerFactory LocalizerFactory
+@inject LanguageService LangService
 
+@if (L != null)
+{
+    <h1>@L["EmailTitle"]</h1>
 
-<h1>Email Registration Page</h1>
+    <div class="mb-3">
+        <label for="emailInput" class="form-label">@L["LabelEmail"]</label>
+        <input type="email" class="form-control" id="emailInput" placeholder="@L["PlaceholderEmail"]" @bind="email">
+        <input type="password" class="form-control mt-2" id="passwordInput" placeholder="@L["PlaceholderPassword"]" @bind="password">
+        <button class="btn btn-primary mt-2" @onclick="StartService" disabled="@isListening">
+            @(isListening ? L["BtnListening"] : L["BtnRegister"])
+        </button>
+    </div>
 
-<div class="mb-3">
-    <label for="emailInput" class="form-label">Email address</label>
-    <input type="email" class="form-control" id="emailInput" placeholder="enter your email" @bind="email">
-    <input type="password" class="form-control mt-2" id="passwordInput" placeholder="enter your password" @bind="password">
-    <button class="btn btn-primary mt-2" @onclick="StartService" disabled="@isListening">
-        @(isListening ? "Listening..." : "Register & Start")
-    </button>
-</div>
-
-<h3>Received Emails (@emails.Count)</h3>
-<ul class="list-group">
-    @foreach (var mail in emails)
-    {
-        <li class="list-group-item">
-            <strong>From:</strong> @mail.From <br />
-            <strong>Subject:</strong> @mail.Subject <br />
-            <small class="text-muted">@mail.Date.ToString("HH:mm:ss")</small>
-        </li>
-    }
-    @if (emails.Count == 0)
-    {
-        <li class="list-group-item text-center">No emails received yet.</li>
-    }
-</ul>
-
-<div class="mb-3">
-    <label for="nlpInput" class="form-label">NLP Input</label>
-    <input type="text" class="form-control" id="nlpInput" placeholder="enter text for NLP processing" @bind="Text">
-    <button class="btn btn-secondary mt-2" @onclick="() => NLP(Text)" disabled="@string.IsNullOrEmpty(Text)">
-        Process with NLP
-    </button>
-    <ul class="list-group mt-3">
-        @if (tasks != null)
+    <h3>@L["ReceivedEmails"] (@emails.Count)</h3>
+    <ul class="list-group">
+        @foreach (var mail in emails)
         {
-            @foreach (var taskText in tasks)
-            {
-                <li class="list-group-item">
-                    <strong>משימה:</strong> @taskText.ToString() <br />
-                    <small class="text-muted">סטטוס: בטיפול</small>
-                </li>
-            }
+            <li class="list-group-item">
+                <strong>From:</strong> @mail.From <br />
+                <strong>Subject:</strong> @mail.Subject <br />
+                <small class="text-muted">@mail.Date.ToString("HH:mm:ss")</small>
+            </li>
+        }
+        @if (emails.Count == 0)
+        {
+            <li class="list-group-item text-center">@L["NoEmails"]</li>
         }
     </ul>
-</div>
+
+    <div class="mb-3 mt-4">
+        <label for="nlpInput" class="form-label">@L["LabelNLP"]</label>
+        <input type="text" class="form-control" id="nlpInput" placeholder="@L["LabelNLP"]" @bind="Text">
+        <button class="btn btn-secondary mt-2" @onclick="() => NLP(Text)" disabled="@string.IsNullOrEmpty(Text)">
+            @L["BtnProcess"]
+        </button>
+        <ul class="list-group mt-3">
+            @if (tasks != null)
+            {
+                @foreach (var taskText in tasks)
+                {
+                    <li class="list-group-item">
+                        <strong>@L["TaskPrefix"]:</strong> @taskText.ToString() <br />
+                        <small class="text-muted">@L["TaskStatus"]</small>
+                    </li>
+                }
+            }
+        </ul>
+    </div>
+}
 
 @code {
+    private IStringLocalizer? L;
     private string? email;
     private string? password;
     private bool isListening = false;
@@ -63,16 +70,33 @@
     private CancellationTokenSource cts = new CancellationTokenSource();
 
     private string Text = string.Empty;
-    
     private List<dynamic> tasks = new List<dynamic>();
-    
     private EmailListener? listener; 
     private string? enText;          
 
-    protected override async Task OnAfterRenderAsync(bool firstRender){
-        if (firstRender){
+    protected override void OnInitialized()
+    {
+        // אתחול הלוקלייזר
+        L = LocalizerFactory.Create("Resources.AppResources", "set.Shared");
+        
+        // הרשמה לאירוע שינוי שפה
+        LangService.OnLanguageChanged += HandleLanguageChanged;
+    }
+
+    private void HandleLanguageChanged()
+    {
+        // רענון הלוקלייזר כשהשפה משתנה
+        L = LocalizerFactory.Create("Resources.AppResources", "set.Shared");
+        InvokeAsync(StateHasChanged);
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
             email = await LocalStorage.GetItemAsync<string>("userEmail") ?? string.Empty;
             password = await LocalStorage.GetItemAsync<string>("userPassword") ?? string.Empty;
+            StateHasChanged();
         }
     }
 
@@ -84,8 +108,6 @@
         await LocalStorage.SetItemAsync("userPassword", password);
 
         isListening = true;
-
-        
         listener = new EmailListener(email, password);
 
         listener.OnNewEmailReceived += async (message) =>
@@ -106,19 +128,14 @@
 
         enText = await TranslationService.TranslateToEnglishAsync(text);
         var extractor = new Models.TaskExtractor();
-        
-        
         var extractedStrings = extractor.ExtractTasks(enText ?? string.Empty);
 
         foreach (var taskText in extractedStrings)
         {
-            
             TaskService.AddTask(taskText, enText ?? string.Empty); 
         }
 
-        
         tasks = extractedStrings.Cast<dynamic>().ToList(); 
-        
         StateHasChanged();
     }
 
@@ -126,5 +143,7 @@
     {
         cts.Cancel();
         cts.Dispose();
+        // חשוב: הסרת ההרשמה כדי למנוע בעיות זיכרון
+        LangService.OnLanguageChanged -= HandleLanguageChanged;
     }
 }

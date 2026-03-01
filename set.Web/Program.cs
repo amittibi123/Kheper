@@ -12,6 +12,8 @@ builder.Services.AddRazorComponents()
 builder.Services.AddBlazoredLocalStorage();
 builder.Services.AddScoped<TranslationService>();
 builder.Services.AddSingleton<TaskService>();
+builder.Services.AddSingleton<LanguageService>();
+builder.Services.AddLocalization();
 
 var app = builder.Build();
 
