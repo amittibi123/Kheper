@@ -2,7 +2,6 @@
 @using System.Threading.Tasks
 @using Microsoft.Extensions.Localization
 @using System.Globalization
-@* הזרקת המפעל ליצירת לוקלייזר - זה עוקף את בעיית ה-AppResources החסר *@
 @inject IStringLocalizerFactory LocalizerFactory
 @inject Blazored.LocalStorage.ILocalStorageService LocalStorage
 @implements IDisposable
@@ -51,10 +50,10 @@
 
     protected override void OnInitialized()
     {
-        // יצירה ראשונית
+        
         L = LocalizerFactory.Create("Resources.AppResources", "set.Shared");
 
-        // הרשמה לאירוע שינוי שפה
+        
         LangService.OnLanguageChanged += HandleLanguageChanged;
         
         TaskService.OnTaskAdded += HandleTaskAdded;
@@ -72,13 +71,13 @@
         CultureInfo.DefaultThreadCurrentCulture = culture;
         CultureInfo.DefaultThreadCurrentUICulture = culture;
         
-        // השורה הקריטית: יצירת הלוקלייזר מחדש לפי התרבות החדשה שקבענו
+        
         L = LocalizerFactory.Create("Resources.AppResources", "set.Shared");
         
-        StateHasChanged(); // רענון התצוגה
+        StateHasChanged(); 
     }
 
-    // --- שאר הקוד של ה-Todo נשאר כפי שהיה ---
+    
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
@@ -143,14 +142,14 @@
 
     private void HandleLanguageChanged()
     {
-        // כשהשפה משתנה ב-Service, אנחנו מעדכנים את ה-L המקומי ומרעננים
+        
         L = LocalizerFactory.Create("Resources.AppResources", "set.Shared");
         InvokeAsync(StateHasChanged);
     }
 
     public void Dispose()
     {
-        // חשוב להסיר את ההרשמה כדי למנוע זליגת זיכרון
+        
         LangService.OnLanguageChanged -= HandleLanguageChanged;
         TaskService.OnTaskAdded -= HandleTaskAdded;
     }
