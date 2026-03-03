@@ -1,6 +1,7 @@
-@page "/Settings"
+@page "/settings/GeneralSettings"
 @inject IJSRuntime JSRuntime
 @implements IDisposable
+@inject NavigationManager NavManager
 @inject Blazored.LocalStorage.ILocalStorageService LocalStorage
 @using Microsoft.Extensions.Localization
 @using System.Threading.Tasks
@@ -109,7 +110,12 @@
 
     public void Dispose()
     {
-        NavState.SetSettingsMode(false);
         LangService.OnLanguageChanged -= HandleLanguageChanged;
+
+        // בדיקה: אם הכתובת החדשה לא מכילה את המילה settings, רק אז נכבה את מצב ההגדרות
+        if (!NavManager.Uri.Contains("settings", StringComparison.OrdinalIgnoreCase))
+        {
+            NavState.SetSettingsMode(false);
+        }
     }
 }
