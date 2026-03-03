@@ -1,0 +1,19 @@
+@page "/settings/Account"
+@inject NavigationManager NavManager
+
+@implements IDisposable
+
+@inject NavigationState NavState  
+
+<h1>Account Settings</h1>
+
+@code {
+    public void Dispose()
+    {
+        // עכשיו NavState יהיה מוכר כאן
+        if (!NavManager.Uri.Contains("settings", StringComparison.OrdinalIgnoreCase))
+        {
+            NavState.SetSettingsMode(false);
+        }
+    }
+}
