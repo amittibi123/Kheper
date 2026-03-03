@@ -132,7 +132,7 @@
 
         foreach (var taskText in extractedStrings)
         {
-            TaskService.AddTask(taskText, enText ?? string.Empty); 
+            TaskService.AddTask(taskText.Description ?? string.Empty, enText ?? string.Empty, taskText.TaskTime); 
         }
 
         tasks = extractedStrings.Cast<dynamic>().ToList(); 

@@ -95,7 +95,7 @@
     protected override async Task OnInitializedAsync()
     {
         tasks = new List<TodoTask>();
-        await SyncTasksFromService();
+        
     }
 
     private void ChangeLanguage(string cultureCode)
@@ -121,6 +121,7 @@
                 tasks = savedTasks;
                 StateHasChanged(); 
             }
+            await SyncTasksFromService();
         }
     }
 
@@ -132,9 +133,11 @@
         {
             await InvokeAsync(async () =>
             {
+                // חשוב להשתמש ב-ToList כדי למנוע שגיאות בזמן ריצה על הלולאה
                 foreach (var t in TaskService.AllTasks.ToList())
                 {
-                    await AddTask(t.Name, t.Desc);
+                    // הוספת הפרמטר השלישי (t.TaskTime) כדי שהזמן יעבור מהשירות לרשימה
+                    await AddTask(t.Name, t.Desc, t.TaskTime); 
                 }
                 TaskService.AllTasks.Clear();
                 StateHasChanged();
