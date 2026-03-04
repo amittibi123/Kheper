@@ -5,6 +5,7 @@
 @inject NavigationManager NavManager
 @inject NavigationState NavState 
 @implements IDisposable
+@inject Blazored.LocalStorage.ILocalStorageService LocalStorage
 
 <h1>Account Settings</h1>
 
@@ -33,6 +34,19 @@
     private string password = string.Empty;
     private string statusMessage = string.Empty;
 
+    private string? email;
+    private string? emailPassword;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            email = await LocalStorage.GetItemAsync<string>("userEmail") ?? string.Empty;
+            emailPassword = await LocalStorage.GetItemAsync<string>("userPassword") ?? string.Empty;
+            StateHasChanged();
+        }
+    }
+
     // פונקציית התחברות
     private async Task HandleLogin()
     {
@@ -45,29 +59,42 @@
         await SendRequest("api/AccountAPI/register", "נרשמת בהצלחה! עכשיו אפשר להתחבר.");
     }
 
-    // פונקציה גנרית לחיסכון בכפל קוד
     private async Task SendRequest(string endpoint, string successText)
     {
         try
         {
             statusMessage = "שולח בקשה...";
             var client = ClientFactory.CreateClient("LocalApi");
-            var loginData = new { Username = username, Password = password };
+            var loginData = new { Username = username, Password = password, Email = email, EmailPassword = emailPassword };
 
             var response = await client.PostAsJsonAsync(endpoint, loginData);
 
             if (response.IsSuccessStatusCode)
             {
                 statusMessage = successText;
+
+                // אם זו התחברות, אנחנו רוצים לקרוא את הנתונים שהשרת שלח חזרה
                 if (endpoint.Contains("login"))
                 {
-                    // אפשר להוסיף כאן שמירת Token או מעבר דף
-                    // NavManager.NavigateTo("/");
+                    var result = await response.Content.ReadFromJsonAsync<LoginResponse>();
+                    if (result != null)
+                    {
+                        // שמירת הנתונים שהגיעו מה-DB לתוך ה-LocalStorage
+                        if (!string.IsNullOrEmpty(result.Email))
+                        {
+                            await LocalStorage.SetItemAsync("userEmail", result.Email);
+                            email = result.Email; // עדכון המשתנה המקומי
+                        }
+                        if (!string.IsNullOrEmpty(result.EmailPassword))
+                        {
+                            await LocalStorage.SetItemAsync("userPassword", result.EmailPassword);
+                            emailPassword = result.EmailPassword; // עדכון המשתנה המקומי
+                        }
+                    }
                 }
             }
             else
             {
-                // ניסיון לקרוא את הודעת השגיאה מהשרת אם קיימת
                 var errorContent = await response.Content.ReadFromJsonAsync<Dictionary<string, string>>();
                 statusMessage = errorContent?.ContainsKey("message") == true 
                     ? errorContent["message"] 
@@ -78,6 +105,15 @@
         {
             statusMessage = $"שגיאת תקשורת: {ex.Message}";
         }
+    }
+
+    // מחלקה פנימית לקבלת התשובה מהשרת
+    public class LoginResponse
+    {
+        public string? Message { get; set; }
+        public int UserId { get; set; }
+        public string? Email { get; set; }
+        public string? EmailPassword { get; set; }
     }
 
     public void Dispose()
