@@ -30,6 +30,19 @@
 </div>
 
 @code {
+    public class TodoTask
+    {
+        public string Task { get; set; } = string.Empty;
+        public string Description { get; set; } = string.Empty;
+
+        public DateTime CreatedAt { get; set; }
+
+        public DateTime? DueDate { get; set; }
+
+        public TodoTask() {CreatedAt = DateTime.Now; }
+    }
+
+    private List<TodoTask> tasks = new();
     private string username = string.Empty;
     private string password = string.Empty;
     private string statusMessage = string.Empty;
@@ -43,12 +56,17 @@
         {
             email = await LocalStorage.GetItemAsync<string>("userEmail") ?? string.Empty;
             emailPassword = await LocalStorage.GetItemAsync<string>("userPassword") ?? string.Empty;
+            var savedTasks = await LocalStorage.GetItemAsync<List<TodoTask>>("tasks");
+            if (savedTasks != null)
+            {
+                tasks = savedTasks;
+                StateHasChanged(); 
+            }
             StateHasChanged();
         }
     }
 
-    // פונקציית התחברות
-    //test
+    
     private async Task HandleLogin()
     {
         await SendRequest("api/AccountAPI/login", "התחברת בהצלחה!");
@@ -66,7 +84,7 @@
         {
             statusMessage = "שולח בקשה...";
             var client = ClientFactory.CreateClient("LocalApi");
-            var loginData = new { Username = username, Password = password, Email = email, EmailPassword = emailPassword };
+            var loginData = new { Username = username, Password = password, Email = email, EmailPassword = emailPassword, tasks = tasks };
 
             var response = await client.PostAsJsonAsync(endpoint, loginData);
 
@@ -91,15 +109,28 @@
                             await LocalStorage.SetItemAsync("userPassword", result.EmailPassword);
                             emailPassword = result.EmailPassword; // עדכון המשתנה המקומי
                         }
+                        if (result.Tasks != null)
+                        {
+                            tasks = result.Tasks;
+                            await LocalStorage.SetItemAsync("tasks", tasks);
+                        }
                     }
                 }
             }
             else
             {
-                var errorContent = await response.Content.ReadFromJsonAsync<Dictionary<string, string>>();
-                statusMessage = errorContent?.ContainsKey("message") == true 
-                    ? errorContent["message"] 
-                    : $"שגיאה: {response.ReasonPhrase}";
+                // במקום ReadFromJsonAsync, נקרא את זה כטקסט חופשי
+                var errorRaw = await response.Content.ReadAsStringAsync();
+                
+                // ננסה להציג הודעה ידידותית
+                if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                {
+                    statusMessage = "שם משתמש או סיסמה שגויים (או שהמשתמש לא קיים).";
+                }
+                else
+                {
+                    statusMessage = $"שגיאה מהשרת: {errorRaw}";
+                }
             }
         }
         catch (Exception ex)
@@ -115,6 +146,8 @@
         public int UserId { get; set; }
         public string? Email { get; set; }
         public string? EmailPassword { get; set; }
+
+        public List<TodoTask>? Tasks { get; set; }
     }
 
     public void Dispose()
