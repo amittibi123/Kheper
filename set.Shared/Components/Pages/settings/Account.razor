@@ -1,16 +1,87 @@
 @page "/settings/Account"
+@using System.Net.Http
+@using System.Net.Http.Json
+@inject IHttpClientFactory ClientFactory
 @inject NavigationManager NavManager
-
+@inject NavigationState NavState 
 @implements IDisposable
-
-@inject NavigationState NavState  
 
 <h1>Account Settings</h1>
 
+<div class="login-container">
+    @* הוספת כותרת קטנה כדי להבין מה קורה *@
+    <h3>Login or Register</h3>
+    
+    <input @bind="username" placeholder="Username" class="form-control mb-2" />
+    <input @bind="password" type="password" placeholder="Password" class="form-control mb-2" />
+    
+    <div class="button-group">
+        <button class="btn btn-primary" @onclick="HandleLogin">Login</button>
+        <button class="btn btn-secondary" @onclick="HandleRegister">Register</button>
+    </div>
+
+    @if (!string.IsNullOrEmpty(statusMessage))
+    {
+        <p class="mt-3" style="color: @(statusMessage.Contains("בהצלחה") ? "green" : "red")">
+            @statusMessage
+        </p>
+    }
+</div>
+
 @code {
+    private string username = string.Empty;
+    private string password = string.Empty;
+    private string statusMessage = string.Empty;
+
+    // פונקציית התחברות
+    private async Task HandleLogin()
+    {
+        await SendRequest("api/AccountAPI/login", "התחברת בהצלחה!");
+    }
+
+    // פונקציית הרשמה
+    private async Task HandleRegister()
+    {
+        await SendRequest("api/AccountAPI/register", "נרשמת בהצלחה! עכשיו אפשר להתחבר.");
+    }
+
+    // פונקציה גנרית לחיסכון בכפל קוד
+    private async Task SendRequest(string endpoint, string successText)
+    {
+        try
+        {
+            statusMessage = "שולח בקשה...";
+            var client = ClientFactory.CreateClient("LocalApi");
+            var loginData = new { Username = username, Password = password };
+
+            var response = await client.PostAsJsonAsync(endpoint, loginData);
+
+            if (response.IsSuccessStatusCode)
+            {
+                statusMessage = successText;
+                if (endpoint.Contains("login"))
+                {
+                    // אפשר להוסיף כאן שמירת Token או מעבר דף
+                    // NavManager.NavigateTo("/");
+                }
+            }
+            else
+            {
+                // ניסיון לקרוא את הודעת השגיאה מהשרת אם קיימת
+                var errorContent = await response.Content.ReadFromJsonAsync<Dictionary<string, string>>();
+                statusMessage = errorContent?.ContainsKey("message") == true 
+                    ? errorContent["message"] 
+                    : $"שגיאה: {response.ReasonPhrase}";
+            }
+        }
+        catch (Exception ex)
+        {
+            statusMessage = $"שגיאת תקשורת: {ex.Message}";
+        }
+    }
+
     public void Dispose()
     {
-        // עכשיו NavState יהיה מוכר כאן
         if (!NavManager.Uri.Contains("settings", StringComparison.OrdinalIgnoreCase))
         {
             NavState.SetSettingsMode(false);
