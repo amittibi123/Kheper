@@ -8,103 +8,134 @@ namespace set.Web.Controllers
     [Route("api/[controller]")]
     public class AccountAPI : ControllerBase
     {
+        // ─── LOGIN ─────────────────────────────────────────────────
         [HttpPost("login")]
         [IgnoreAntiforgeryToken]
         public async Task<IActionResult> Login([FromBody] LoginRequest request, [FromServices] AppDbContext db)
         {
-            // 1. קודם כל מוצאים את המשתמש
-            var user = await db.Users.FirstOrDefaultAsync(u => 
+            var user = await db.Users.FirstOrDefaultAsync(u =>
                 u.Username == request.Username && u.Password == request.Password);
 
-            // 2. בודקים אם הוא בכלל קיים לפני שממשיכים
             if (user == null)
-            {
                 return Unauthorized(new { message = "שם משתמש או סיסמה שגויים" });
-            }
 
-            // 3. רק עכשיו, כשאנחנו בטוחים שיש משתמש, מושכים את המשימות שלו
+            // Load tasks from DB
             var tasks = await db.TodoTasks
                 .Where(t => t.UserId == user.Id)
                 .ToListAsync();
 
-            // 4. מחזירים את התשובה
-            return Ok(new { 
-                Message = "Login successful", 
+            // Load packages from DB  ← added
+            var packages = await db.Packages
+                .Where(p => p.UserId == user.Id)
+                .ToListAsync();
+
+            return Ok(new
+            {
+                Message = "Login successful",
                 UserId = user.Id,
                 Email = user.Email,
                 EmailPassword = user.EmailPassword,
-                // וודא שכאן כתוב Tasks עם T גדולה כדי להתאים ל-LoginResponse ב-Client
-                Tasks = tasks.Select(t => new 
+                Tasks = tasks.Select(t => new
                 {
                     t.Task,
                     t.Description,
                     t.CreatedAt,
-                    t.DueDate
+                    t.DueDate,
+                    t.Path
+                }).ToList(),
+                // ← return packages to client
+                Packages = packages.Select(p => new
+                {
+                    p.Name,
+                    p.Path,
+                    p.ParentPath
                 }).ToList()
             });
         }
 
+        // ─── REGISTER ──────────────────────────────────────────────
         [HttpPost("register")]
         [IgnoreAntiforgeryToken]
         public async Task<IActionResult> Register([FromBody] RegisterRequest request, [FromServices] AppDbContext db)
         {
-            // 1. בדיקה אם המשתמש קיים
             if (await db.Users.AnyAsync(u => u.Username == request.Username))
                 return BadRequest(new { message = "משתמש כבר קיים" });
 
-            // 2. יצירת המשתמש
-            var newUser = new User 
-            { 
-                Username = request.Username ?? "", 
+            var newUser = new User
+            {
+                Username = request.Username ?? "",
                 Password = request.Password ?? "",
                 Email = request.Email,
                 EmailPassword = request.EmailPassword
             };
 
-            // 3. שמירה ראשונה - כדי לקבל ID מהבסיס נתונים!
             db.Users.Add(newUser);
-            await db.SaveChangesAsync(); 
+            await db.SaveChangesAsync(); // save first to get the real Id
 
-            // עכשיו ל-newUser.Id יש ערך אמיתי (למשל 1, 2, 3...)
-
-            // 4. יצירת המשימות עם ה-ID האמיתי
+            // Save tasks
             if (request.tasks != null && request.tasks.Any())
             {
-                var newTodoTasks = request.tasks.Select(t => new set.Web.Data.TodoTask 
-                { 
-                    Task = t.Task, 
-                    Description = t.Description, 
-                    CreatedAt = t.CreatedAt, 
+                var newTodoTasks = request.tasks.Select(t => new set.Web.Data.TodoTask
+                {
+                    Task = t.Task,
+                    Description = t.Description,
+                    CreatedAt = t.CreatedAt,
                     DueDate = t.DueDate,
-                    UserId = newUser.Id // עכשיו זה ה-ID הנכון
+                    Path = t.Path,
+                    UserId = newUser.Id
                 }).ToList();
 
                 db.TodoTasks.AddRange(newTodoTasks);
-                
-                // 5. שמירה שנייה - עבור המשימות
-                await db.SaveChangesAsync();
             }
+
+            // Save packages  ← added
+            if (request.packages != null && request.packages.Any())
+            {
+                var newPackages = request.packages.Select(p => new set.Web.Data.Package
+                {
+                    Name = p.Name,
+                    Path = p.Path,
+                    ParentPath = p.ParentPath,
+                    UserId = newUser.Id
+                }).ToList();
+
+                db.Packages.AddRange(newPackages);
+            }
+
+            await db.SaveChangesAsync();
 
             return Ok(new { message = "נרשמת בהצלחה" });
         }
 
-        public class TodoTask
+        // ─── CLEAR DB (dev tool) ───────────────────────────────────
+        [HttpDelete("clear-database")]
+        public async Task<IActionResult> ClearDatabase([FromServices] AppDbContext db)
+        {
+            db.TodoTasks.RemoveRange(db.TodoTasks);
+            db.Packages.RemoveRange(db.Packages);   // ← added
+            db.Users.RemoveRange(db.Users);
+            await db.SaveChangesAsync();
+            return Ok(new { message = "הנתונים נמחקו בהצלחה" });
+        }
+
+        // ─── DTOs ──────────────────────────────────────────────────
+
+        public class PackageDto
+        {
+            public string Name { get; set; } = string.Empty;
+            public string Path { get; set; } = "/";
+            public string ParentPath { get; set; } = "/";
+        }
+
+        public class TodoTaskDto
         {
             public string Task { get; set; } = string.Empty;
             public string Description { get; set; } = string.Empty;
-
             public DateTime CreatedAt { get; set; }
-
             public DateTime? DueDate { get; set; }
-
-            public int UserId { get; set; }
-
-            public TodoTask() {CreatedAt = DateTime.Now; }
+            public string Path { get; set; } = "/";
+            public TodoTaskDto() { CreatedAt = DateTime.Now; }
         }
-
-    
-
-        // --- DTOs ---
 
         public class RegisterRequest
         {
@@ -112,30 +143,18 @@ namespace set.Web.Controllers
             public string? Password { get; set; }
             public string? Email { get; set; }
             public string? EmailPassword { get; set; }
-            public List<TodoTask>? tasks { get; set; }
+            public List<TodoTaskDto>? tasks { get; set; }
+            public List<PackageDto>? packages { get; set; }   // ← added
         }
 
-        public class LoginRequest // <--- הוספת המחלקה החסרה
+        public class LoginRequest
         {
             public string? Username { get; set; }
             public string? Password { get; set; }
-            // הוספת השדות האלו למניעת שגיאות כששולחים אובייקט מלא מה-Client
             public string? Email { get; set; }
             public string? EmailPassword { get; set; }
-
-            public List<TodoTask>? tasks { get; set; }
-        }
-
-        [HttpDelete("clear-database")]
-        public async Task<IActionResult> ClearDatabase([FromServices] AppDbContext db)
-        {
-            // מחיקת כל המשימות
-            db.TodoTasks.RemoveRange(db.TodoTasks);
-            // מחיקת כל המשתמשים
-            db.Users.RemoveRange(db.Users);
-            
-            await db.SaveChangesAsync();
-            return Ok(new { message = "הנתונים נמחקו בהצלחה" });
+            public List<TodoTaskDto>? tasks { get; set; }
+            public List<PackageDto>? packages { get; set; }   // ← added
         }
     }
 }
