@@ -10,7 +10,6 @@
 <h1>Account Settings</h1>
 
 <div class="login-container">
-    @* הוספת כותרת קטנה כדי להבין מה קורה *@
     <h3>Login or Register</h3>
     
     <input @bind="username" placeholder="Username" class="form-control mb-2" />
@@ -34,19 +33,25 @@
     {
         public string Task { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
-
         public DateTime CreatedAt { get; set; }
-
         public DateTime? DueDate { get; set; }
+        public string Path { get; set; } = "/";
+        public TodoTask() { CreatedAt = DateTime.Now; }
+    }
 
-        public TodoTask() {CreatedAt = DateTime.Now; }
+    public class Package
+    {
+        public string Name { get; set; } = string.Empty;
+        public string Path { get; set; } = "/";
+        public string ParentPath { get; set; } = "/";
     }
 
     private List<TodoTask> tasks = new();
+    private List<Package> packages = new();   // ← added
+
     private string username = string.Empty;
     private string password = string.Empty;
     private string statusMessage = string.Empty;
-
     private string? email;
     private string? emailPassword;
 
@@ -56,23 +61,22 @@
         {
             email = await LocalStorage.GetItemAsync<string>("userEmail") ?? string.Empty;
             emailPassword = await LocalStorage.GetItemAsync<string>("userPassword") ?? string.Empty;
+
             var savedTasks = await LocalStorage.GetItemAsync<List<TodoTask>>("tasks");
-            if (savedTasks != null)
-            {
-                tasks = savedTasks;
-                StateHasChanged(); 
-            }
+            if (savedTasks != null) tasks = savedTasks;
+
+            var savedPackages = await LocalStorage.GetItemAsync<List<Package>>("packages");  // ← added
+            if (savedPackages != null) packages = savedPackages;                             // ← added
+
             StateHasChanged();
         }
     }
 
-    
     private async Task HandleLogin()
     {
         await SendRequest("api/AccountAPI/login", "התחברת בהצלחה!");
     }
 
-    // פונקציית הרשמה
     private async Task HandleRegister()
     {
         await SendRequest("api/AccountAPI/register", "נרשמת בהצלחה! עכשיו אפשר להתחבר.");
@@ -84,7 +88,17 @@
         {
             statusMessage = "שולח בקשה...";
             var client = ClientFactory.CreateClient("LocalApi");
-            var loginData = new { Username = username, Password = password, Email = email, EmailPassword = emailPassword, tasks = tasks };
+
+            // ← packages is now included in the request body
+            var loginData = new
+            {
+                Username = username,
+                Password = password,
+                Email = email,
+                EmailPassword = emailPassword,
+                tasks = tasks,
+                packages = packages
+            };
 
             var response = await client.PostAsJsonAsync(endpoint, loginData);
 
@@ -92,45 +106,42 @@
             {
                 statusMessage = successText;
 
-                // אם זו התחברות, אנחנו רוצים לקרוא את הנתונים שהשרת שלח חזרה
                 if (endpoint.Contains("login"))
                 {
                     var result = await response.Content.ReadFromJsonAsync<LoginResponse>();
                     if (result != null)
                     {
-                        // שמירת הנתונים שהגיעו מה-DB לתוך ה-LocalStorage
                         if (!string.IsNullOrEmpty(result.Email))
                         {
                             await LocalStorage.SetItemAsync("userEmail", result.Email);
-                            email = result.Email; // עדכון המשתנה המקומי
+                            email = result.Email;
                         }
                         if (!string.IsNullOrEmpty(result.EmailPassword))
                         {
                             await LocalStorage.SetItemAsync("userPassword", result.EmailPassword);
-                            emailPassword = result.EmailPassword; // עדכון המשתנה המקומי
+                            emailPassword = result.EmailPassword;
                         }
                         if (result.Tasks != null)
                         {
                             tasks = result.Tasks;
                             await LocalStorage.SetItemAsync("tasks", tasks);
                         }
+                        // ← save packages returned from server into LocalStorage
+                        if (result.Packages != null)
+                        {
+                            packages = result.Packages;
+                            await LocalStorage.SetItemAsync("packages", packages);
+                        }
                     }
                 }
             }
             else
             {
-                // במקום ReadFromJsonAsync, נקרא את זה כטקסט חופשי
                 var errorRaw = await response.Content.ReadAsStringAsync();
-                
-                // ננסה להציג הודעה ידידותית
                 if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
-                {
                     statusMessage = "שם משתמש או סיסמה שגויים (או שהמשתמש לא קיים).";
-                }
                 else
-                {
                     statusMessage = $"שגיאה מהשרת: {errorRaw}";
-                }
             }
         }
         catch (Exception ex)
@@ -139,22 +150,19 @@
         }
     }
 
-    // מחלקה פנימית לקבלת התשובה מהשרת
     public class LoginResponse
     {
         public string? Message { get; set; }
         public int UserId { get; set; }
         public string? Email { get; set; }
         public string? EmailPassword { get; set; }
-
         public List<TodoTask>? Tasks { get; set; }
+        public List<Package>? Packages { get; set; }   // ← added
     }
 
     public void Dispose()
     {
         if (!NavManager.Uri.Contains("settings", StringComparison.OrdinalIgnoreCase))
-        {
             NavState.SetSettingsMode(false);
-        }
     }
 }
