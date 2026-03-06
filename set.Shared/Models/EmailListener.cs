@@ -1,14 +1,9 @@
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 using MailKit;
 using MailKit.Net.Imap;
 using MailKit.Security;
 using MimeKit;
 
-
-
-namespace Models
+namespace set.Shared.Models
 {
     public class EmailListener
     {

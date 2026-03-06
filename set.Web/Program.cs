@@ -3,6 +3,7 @@ using set.Shared.Components;
 using Blazored.LocalStorage;
 using set.Web.Data;
 using Microsoft.EntityFrameworkCore;
+using set.Shared.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 

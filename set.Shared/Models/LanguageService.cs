@@ -1,5 +1,6 @@
 using System.Globalization;
-using Microsoft.Extensions.Localization;
+
+namespace set.Shared.Models;
 
 public class LanguageService
 {

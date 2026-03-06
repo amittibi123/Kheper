@@ -1,9 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Text.RegularExpressions;
 using System.Globalization;
+using System.Text.RegularExpressions;
 
-namespace Models
+namespace set.Shared.Models
 {
     public class ExtractedTask
     {

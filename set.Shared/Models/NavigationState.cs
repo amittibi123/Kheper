@@ -1,3 +1,5 @@
+namespace set.Shared.Models;
+
 public class NavigationState
 {
     public bool IsInSettings { get; private set; }

@@ -1,3 +1,5 @@
+namespace set.Shared.Models;
+
 public class TaskService
 {
     

@@ -3,7 +3,7 @@
   <ItemGroup>
     <ProjectReference Include="..\set.Shared\set.Shared.csproj" />
   </ItemGroup>
-
+  
   <ItemGroup>
     <PackageReference Include="Blazored.LocalStorage" Version="4.3.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.3">

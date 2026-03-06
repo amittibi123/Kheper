@@ -1,9 +1,7 @@
-using System;
-using System.Net.Http;
-using System.Threading.Tasks;
 using System.Text.Json;
-using System.Collections.Generic;
 using System.Web;
+
+namespace set.Shared.Models;
 
 public class TranslationService
 {
