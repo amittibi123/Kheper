@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="Kheper.App/Kheper.App.csproj" />
+  <Project Path="Kheper.Shared/Kheper.Shared.csproj" />
+  <Project Path="Kheper.Web/Kheper.Web.csproj" />
+</Solution>

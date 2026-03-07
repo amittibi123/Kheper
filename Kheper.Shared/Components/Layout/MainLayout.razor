@@ -1,0 +1,88 @@
+@inherits LayoutComponentBase
+@inject IJSRuntime JSRuntime
+@inject Blazored.LocalStorage.ILocalStorageService LocalStorage
+@inject NavigationManager Nav
+@implements IDisposable
+@using System.Globalization
+@using Models
+@inject LanguageService LangService
+
+<div class="page">
+    <div class="sidebar">
+        <NavMenu />
+    </div>
+
+    <main>
+        <div class="top-row px-4">
+            <button class="btn btn-link p-0 border-0" @onclick="GoToSettings" style="background: none;">
+                <img src="_content/Kheper.Shared/images/Settings.png" 
+                     alt="Settings" 
+                     style="width: 25px; height: 25px; cursor: pointer;" />
+            </button>
+        </div>
+
+        <article class="content px-4">
+            @Body
+        </article>
+    </main>
+</div>
+
+@code {
+    private bool isDarkMode;
+
+    private void GoToSettings()
+    {
+        Nav.NavigateTo("settings/GeneralSettings");
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            try 
+            {
+                // טעינת מודול ה-JS
+                await JSRuntime.InvokeVoidAsync("import", "./_content/Kheper.Shared/ThemeToggle.js");
+
+                // בדיקת ערך שמור
+                var savedTheme = await LocalStorage.GetItemAsync<bool?>("isDarkMode");
+
+                if (savedTheme.HasValue)
+                {
+                    isDarkMode = savedTheme.Value;
+                }
+                else 
+                {
+                    // ברירת מחדל לפי הגדרות דפדפן אם אין ערך שמור
+                    isDarkMode = await JSRuntime.InvokeAsync<bool>("eval", "window.matchMedia('(prefers-color-scheme: dark)').matches");
+                }
+
+                var savedLang = await LocalStorage.GetItemAsync<string>("selectedLanguage");
+
+                // 2. אם מצאנו שפה שמורה, נעדכן את ה-Service
+                if (!string.IsNullOrEmpty(savedLang))
+                {
+                    LangService.SetLanguage(savedLang);
+                }
+                else 
+                {
+                    // אם אין כלום, נשים אנגלית כברירת מחדל
+                    LangService.SetLanguage("en-US");
+                }
+
+                await JSRuntime.InvokeVoidAsync("themeToggle.setTheme", isDarkMode);
+                StateHasChanged(); 
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error loading theme: {ex.Message}");
+            }
+        }
+    }
+
+    // מימוש חובה בגלל ה-@implements IDisposable
+    public void Dispose()
+    {
+        // כאן משחררים משאבים אם יש, כרגע אפשר להשאיר ריק
+    }
+}

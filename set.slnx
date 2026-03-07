@@ -1,7 +1,0 @@
-<Solution>
-  <Folder Name="/set.App/">
-    <Project Path="set.App/set.csproj" />
-  </Folder>
-  <Project Path="set.Shared/set.Shared.csproj" />
-  <Project Path="set.Web/set.Web.csproj" />
-</Solution>

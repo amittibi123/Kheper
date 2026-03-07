@@ -1,0 +1,78 @@
+@inject NavigationState NavState
+@implements IDisposable
+@using Models
+
+<div class="top-row ps-3 navbar navbar-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="">Kheper</a>
+    </div>
+
+        
+</div>
+
+<input type="checkbox" title="Navigation menu" class="navbar-toggler" />
+
+<div class="nav-scrollable" onclick="document.querySelector('.navbar-toggler').click()">
+    <nav class="nav flex-column">
+        @if (!NavState.IsInSettings)
+        {
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                    <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Home
+                </NavLink>
+            </div>     
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="email">
+                    <span class="bi bi-envelope-fill-nav-menu" aria-hidden="true"></span> Email Registration
+                </NavLink>
+            </div>
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="todo">
+                    <span class="bi bi-list-task-fill-nav-menu" aria-hidden="true"></span> To-Do List
+                </NavLink>
+            </div>
+        } 
+        else
+        {
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="" @onclick="HandleBackToMain" style="cursor:pointer;">
+                    <span class="bi bi-arrow-left-circle-fill-nav-menu" aria-hidden="true"></span> Back to Main
+                </NavLink>
+            </div>
+
+            <div class="nav-item px-3 border-top mt-2 pt-2">
+                <span class="text-white-50 ps-3 small">SETTINGS MODE</span>
+            </div>
+
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="/settings/GeneralSettings">
+                    <span class="bi bi-gear-fill-nav-menu" aria-hidden="true"></span> General Settings
+                </NavLink>
+            </div>
+
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="/settings/Account">
+                    <span class="bi bi-person-fill-nav-menu" aria-hidden="true"></span> Account Settings
+                </NavLink>
+            </div>
+        }
+    </nav>
+</div>
+
+@code {
+    protected override void OnInitialized()
+    {
+        NavState.OnChange += StateHasChanged;
+    }
+
+    private void HandleBackToMain()
+    {
+        // מחזיר את המצב למצב רגיל
+        NavState.SetSettingsMode(false);
+    }
+
+    public void Dispose()
+    {
+        NavState.OnChange -= StateHasChanged;
+    }
+}
