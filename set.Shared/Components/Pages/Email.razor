@@ -58,7 +58,7 @@
                 }
             }
         </ul>
-    </div>
+    </div>  
 }
 
 @code {
@@ -136,6 +136,13 @@
         }
 
         tasks = extractedStrings.Cast<dynamic>().ToList(); 
+        StateHasChanged();
+    }
+    private string? translationResult;
+
+    private async Task TestTranslation()
+    {
+        translationResult = await TranslationService.TranslateToEnglishAsync(Text);
         StateHasChanged();
     }
 
