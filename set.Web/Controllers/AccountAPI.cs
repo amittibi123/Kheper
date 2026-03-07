@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using set.Web.Data;
+using BC = BCrypt.Net.BCrypt;
 
 namespace set.Web.Controllers
 {
@@ -14,9 +15,9 @@ namespace set.Web.Controllers
         public async Task<IActionResult> Login([FromBody] LoginRequest request, [FromServices] AppDbContext db)
         {
             var user = await db.Users.FirstOrDefaultAsync(u =>
-                u.Username == request.Username && u.Password == request.Password);
+                u.Username == request.Username);
 
-            if (user == null)
+            if (user == null || !BC.Verify(request.Password, user.Password))
                 return Unauthorized(new { message = "שם משתמש או סיסמה שגויים" });
 
             // Load tasks from DB
@@ -64,7 +65,7 @@ namespace set.Web.Controllers
             var newUser = new User
             {
                 Username = request.Username ?? "",
-                Password = request.Password ?? "",
+                Password = BC.HashPassword(request.Password),
                 Email = request.Email,
                 EmailPassword = request.EmailPassword
             };
