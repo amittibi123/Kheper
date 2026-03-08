@@ -1,7 +1,6 @@
-# Kheper
+<h1>Kheper <img src="Kheper.App/Resources/AppIcon/appicon.svg" width="40" align="right"/></h1>
 
-**"Talk it into existence. Sync it to your day."**
-
+**"Messages in. Tasks out."**
 ---
 
 ## 📋 Overview
