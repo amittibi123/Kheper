@@ -1,5 +1,551 @@
 @page "/"
 
-<h1>Hello, world!</h1>
+<PageTitle>Kheper — Messages in. Tasks out.</PageTitle>
 
-Welcome to your new app.
+<div class="kheper-landing">
+
+    <!-- ── HERO ── -->
+    <section class="hero">
+        <div class="hero-bg-grid"></div>
+        <div class="hero-content">
+            <div class="logo-wrap">
+                <img src="_content/Kheper.Shared/images/appicon.svg" class="hero-logo" alt="Kheper" />
+            </div>
+            <h1 class="hero-title">KHEPER</h1>
+            <p class="hero-tagline">Messages in. Tasks out.</p>
+            <p class="hero-sub">הודעות נכנסות — משימות יוצאות</p>
+            <div class="hero-buttons">
+                <a href="https://github.com/amittibi123/Kheper" target="_blank" class="btn btn-github">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+                    GitHub
+                </a>
+                <a href="#download" class="btn btn-download btn-disabled">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                    Download <span class="badge">Soon</span>
+                </a>
+            </div>
+        </div>
+        <div class="scroll-hint">
+            <span>↓</span>
+        </div>
+    </section>
+
+    <!-- ── WHAT IS KHEPER ── -->
+    <section class="about section">
+        <div class="section-inner">
+            <div class="section-label">// ABOUT</div>
+            <h2 class="section-title">
+                What is Kheper?
+                <span class="he">מה זה כֶּפֶר?</span>
+            </h2>
+            <p class="about-text">
+                Kheper is a smart productivity app that reads your messages — emails, WhatsApp, and more —
+                and automatically extracts actionable tasks using NLP.
+                No more copy-pasting. No more forgotten follow-ups.
+            </p>
+            <p class="about-text he-text">
+                כֶּפֶר היא אפליקציה חכמה שקוראת את ההודעות שלך — אימיילים, וואטסאפ ועוד —
+                ומחלצת ממשיות אוטומטית בעזרת NLP. לא עוד העתק-הדבק. לא עוד משימות שנשכחות.
+            </p>
+        </div>
+    </section>
+
+    <!-- ── FEATURES ── -->
+    <section class="features section">
+        <div class="section-inner">
+            <div class="section-label">// FEATURES · תכונות</div>
+            <h2 class="section-title">What it does</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">✉️</div>
+                    <h3>Multi-source</h3>
+                    <p>Email, WhatsApp and more — all in one place.<br/><span class="he-small">אימייל, וואטסאפ ועוד — הכל במקום אחד</span></p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🧠</div>
+                    <h3>NLP Extraction</h3>
+                    <p>Automatically detects tasks inside any message.<br/><span class="he-small">מזהה משימות אוטומטית בתוך כל הודעה</span></p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🌐</div>
+                    <h3>Multilingual</h3>
+                    <p>Supports Hebrew, English and many more languages.<br/><span class="he-small">תומך בעברית, אנגלית ועוד שפות רבות</span></p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3>Cross-platform</h3>
+                    <p>Windows, Android, iOS and macOS.<br/><span class="he-small">Windows, Android, iOS ו-macOS</span></p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔒</div>
+                    <h3>Local & Private</h3>
+                    <p>Translation runs locally — your data stays yours.<br/><span class="he-small">התרגום רץ מקומית — הנתונים שלך נשארים אצלך</span></p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Built with .NET 10</h3>
+                    <p>Blazor + MAUI for a fast, modern experience.<br/><span class="he-small">Blazor + MAUI לחוויה מהירה ומודרנית</span></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── PREVIEW ── -->
+    <section class="preview section">
+        <div class="section-inner">
+            <div class="section-label">// PREVIEW</div>
+            <h2 class="section-title">Screenshots <span class="he">צילומי מסך</span></h2>
+            <div class="preview-placeholder">
+                <div class="preview-logo-wrap">
+                    <img src="_content/Kheper.Shared/images/appicon.svg" class="preview-logo" alt="Kheper"/>
+                </div>
+                <p class="coming-soon-text">Coming Soon</p>
+                <p class="coming-soon-sub">האפליקציה עדיין בפיתוח פעיל</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── DOWNLOAD ── -->
+    <section class="download section" id="download">
+        <div class="section-inner center">
+            <div class="section-label">// DOWNLOAD · הורדה</div>
+            <h2 class="section-title">Get Kheper</h2>
+            <p class="download-sub">Not available yet — we're still building.<br/><span class="he-small">עדיין לא זמין — אנחנו עדיין בונים</span></p>
+            <div class="platform-badges">
+                <div class="platform-badge disabled">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.551H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.9-1.801"/></svg>
+                    Windows
+                </div>
+                <div class="platform-badge disabled">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.7 9.05 7.4c1.38.07 2.33.74 3.14.8 1.19-.24 2.33-.93 3.6-.84 1.54.12 2.7.72 3.44 1.84-3.17 1.88-2.42 5.98.48 7.13-.57 1.53-1.33 3.04-2.66 3.95M12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25"/></svg>
+                    iOS
+                </div>
+                <div class="platform-badge disabled">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M17.523 15.341c-.83.486-1.515 1.16-2.02 1.97-.505.81-.77 1.74-.77 2.69h-5.47c0-.95-.265-1.88-.77-2.69-.505-.81-1.19-1.484-2.02-1.97L3.5 13.5l2.973-1.841C7.403 11.173 8.088 10.5 8.593 9.69c.505-.81.77-1.74.77-2.69h5.47c0 .95.265 1.88.77 2.69.505.81 1.19 1.483 2.02 1.969L20.5 13.5z"/></svg>
+                    Android
+                </div>
+                <div class="platform-badge disabled">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm0 18c-4.418 0-8-3.582-8-8s3.582-8 8-8 8 3.582 8 8-3.582 8-8 8z"/></svg>
+                    macOS
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── FOOTER ── -->
+    <footer class="footer">
+        <div class="footer-inner">
+            <span class="footer-name">KHEPER</span>
+            <span class="footer-sep">·</span>
+            <a href="https://github.com/amittibi123/Kheper" target="_blank" class="footer-link">
+                GitHub
+            </a>
+            <span class="footer-sep">·</span>
+            <span class="footer-copy">Built with .NET 10 · Blazor · MAUI</span>
+        </div>
+    </footer>
+
+</div>
+
+<style>
+    /* ── BASE ── */
+    .kheper-landing {
+        --gold: #d4a017;
+        --gold-light: #f5d060;
+        --bg: #0e0906;
+        --bg2: #1a0e08;
+        --bg3: #2c1810;
+        --turq: #2a8c7a;
+        --lapis: #0f2550;
+        --text: #e8dcc8;
+        --text-muted: #9a8a6a;
+        font-family: 'Cinzel', 'Georgia', serif;
+        background: var(--bg);
+        color: var(--text);
+        min-height: 100vh;
+    }
+
+    /* ── HERO ── */
+    .hero {
+        position: relative;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        background: radial-gradient(ellipse at 50% 40%, #2c1810 0%, #0e0906 70%);
+    }
+
+    .hero-bg-grid {
+        position: absolute;
+        inset: 0;
+        background-image:
+            linear-gradient(rgba(212,160,23,0.04) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(212,160,23,0.04) 1px, transparent 1px);
+        background-size: 48px 48px;
+        pointer-events: none;
+    }
+
+    .hero-content {
+        position: relative;
+        z-index: 2;
+        text-align: center;
+        padding: 2rem;
+        animation: fadeUp 1s ease both;
+    }
+
+    @@keyframes fadeUp {
+        from { opacity: 0; transform: translateY(30px); }
+        to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .logo-wrap {
+        margin-bottom: 1.5rem;
+    }
+
+    .hero-logo {
+        width: 110px;
+        height: 110px;
+        filter: drop-shadow(0 0 24px rgba(212,160,23,0.5));
+        animation: pulse 4s ease-in-out infinite;
+    }
+
+    @@keyframes pulse {
+        0%, 100% { filter: drop-shadow(0 0 24px rgba(212,160,23,0.5)); }
+        50%       { filter: drop-shadow(0 0 40px rgba(212,160,23,0.8)); }
+    }
+
+    .hero-title {
+        font-family: 'Cinzel', serif;
+        font-size: clamp(3rem, 10vw, 6rem);
+        font-weight: 900;
+        letter-spacing: 0.3em;
+        background: linear-gradient(180deg, #f5d060 0%, #d4a017 50%, #a07010 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        line-height: 1;
+        margin-bottom: 1rem;
+    }
+
+    .hero-tagline {
+        font-family: 'Cinzel', serif;
+        font-size: clamp(1rem, 3vw, 1.4rem);
+        font-weight: 400;
+        letter-spacing: 0.15em;
+        color: var(--text-muted);
+        margin-bottom: 0.4rem;
+    }
+
+    .hero-sub {
+        font-family: 'Lato', sans-serif;
+        font-size: 1rem;
+        color: #6a5a3a;
+        letter-spacing: 0.05em;
+        margin-bottom: 2.5rem;
+    }
+
+    .hero-buttons {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.75rem 1.75rem;
+        border-radius: 2px;
+        font-family: 'Cinzel', serif;
+        font-size: 0.85rem;
+        letter-spacing: 0.1em;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+
+    .btn-github {
+        background: transparent;
+        border: 1px solid var(--gold);
+        color: var(--gold);
+    }
+
+    .btn-github:hover {
+        background: var(--gold);
+        color: var(--bg);
+    }
+
+    .btn-download {
+        background: var(--gold);
+        border: 1px solid var(--gold);
+        color: var(--bg);
+    }
+
+    .btn-disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+        pointer-events: none;
+    }
+
+    .badge {
+        background: var(--bg3);
+        color: var(--gold);
+        font-size: 0.65rem;
+        padding: 0.1rem 0.4rem;
+        border-radius: 2px;
+        letter-spacing: 0.1em;
+    }
+
+    .scroll-hint {
+        position: absolute;
+        bottom: 2rem;
+        left: 50%;
+        transform: translateX(-50%);
+        color: var(--gold);
+        opacity: 0.4;
+        font-size: 1.4rem;
+        animation: bounce 2s ease infinite;
+    }
+
+    @@keyframes bounce {
+        0%, 100% { transform: translateX(-50%) translateY(0); }
+        50%       { transform: translateX(-50%) translateY(8px); }
+    }
+
+    /* ── SECTIONS ── */
+    .section {
+        padding: 6rem 2rem;
+        border-top: 1px solid rgba(212,160,23,0.1);
+    }
+
+    .section-inner {
+        max-width: 900px;
+        margin: 0 auto;
+    }
+
+    .section-inner.center {
+        text-align: center;
+    }
+
+    .section-label {
+        font-family: 'Lato', monospace;
+        font-size: 0.75rem;
+        letter-spacing: 0.2em;
+        color: var(--turq);
+        margin-bottom: 1rem;
+    }
+
+    .section-title {
+        font-family: 'Cinzel', serif;
+        font-size: clamp(1.6rem, 4vw, 2.4rem);
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        color: var(--gold-light);
+        margin-bottom: 2rem;
+        display: flex;
+        align-items: baseline;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+
+    .section-title .he {
+        font-size: 0.55em;
+        color: var(--text-muted);
+        font-weight: 400;
+        letter-spacing: 0.05em;
+        direction: rtl;
+    }
+
+    /* ── ABOUT ── */
+    .about {
+        background: linear-gradient(180deg, #0e0906 0%, #120b05 100%);
+    }
+
+    .about-text {
+        font-family: 'Lato', sans-serif;
+        font-size: 1.05rem;
+        line-height: 1.9;
+        color: var(--text-muted);
+        max-width: 680px;
+        margin-bottom: 1rem;
+    }
+
+    .he-text {
+        direction: rtl;
+        font-size: 0.95rem;
+        color: #6a5a3a;
+    }
+
+    /* ── FEATURES ── */
+    .features {
+        background: #0a0704;
+    }
+
+    .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 1.5rem;
+    }
+
+    .feature-card {
+        background: linear-gradient(135deg, #1a0e08, #120b05);
+        border: 1px solid rgba(212,160,23,0.15);
+        border-radius: 2px;
+        padding: 1.75rem;
+        transition: border-color 0.3s, transform 0.3s;
+    }
+
+    .feature-card:hover {
+        border-color: rgba(212,160,23,0.5);
+        transform: translateY(-3px);
+    }
+
+    .feature-icon {
+        font-size: 2rem;
+        margin-bottom: 0.75rem;
+    }
+
+    .feature-card h3 {
+        font-family: 'Cinzel', serif;
+        font-size: 0.95rem;
+        letter-spacing: 0.1em;
+        color: var(--gold);
+        margin-bottom: 0.5rem;
+    }
+
+    .feature-card p {
+        font-family: 'Lato', sans-serif;
+        font-size: 0.9rem;
+        color: var(--text-muted);
+        line-height: 1.7;
+    }
+
+    .he-small {
+        font-size: 0.82em;
+        color: #6a5a3a;
+        direction: rtl;
+        display: block;
+        margin-top: 0.2rem;
+    }
+
+    /* ── PREVIEW ── */
+    .preview {
+        background: #0e0906;
+    }
+
+    .preview-placeholder {
+        border: 1px dashed rgba(212,160,23,0.2);
+        border-radius: 4px;
+        padding: 5rem 2rem;
+        text-align: center;
+        background: rgba(212,160,23,0.02);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1.2rem;
+    }
+
+    .preview-logo {
+        width: 80px;
+        height: 80px;
+        opacity: 0.4;
+        filter: grayscale(0.3);
+    }
+
+    .coming-soon-text {
+        font-family: 'Cinzel', serif;
+        font-size: 1.4rem;
+        letter-spacing: 0.3em;
+        color: var(--text-muted);
+    }
+
+    .coming-soon-sub {
+        font-family: 'Lato', sans-serif;
+        font-size: 0.9rem;
+        color: #6a5a3a;
+        direction: rtl;
+    }
+
+    /* ── DOWNLOAD ── */
+    .download {
+        background: linear-gradient(180deg, #0a0704 0%, #0e0906 100%);
+    }
+
+    .download-sub {
+        font-family: 'Lato', sans-serif;
+        font-size: 1rem;
+        color: var(--text-muted);
+        line-height: 1.8;
+        margin-bottom: 2.5rem;
+    }
+
+    .platform-badges {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .platform-badge {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.6rem 1.2rem;
+        border: 1px solid rgba(212,160,23,0.2);
+        border-radius: 2px;
+        font-family: 'Cinzel', serif;
+        font-size: 0.8rem;
+        letter-spacing: 0.1em;
+        color: var(--text-muted);
+    }
+
+    .platform-badge.disabled {
+        opacity: 0.35;
+        cursor: not-allowed;
+    }
+
+    /* ── FOOTER ── */
+    .footer {
+        border-top: 1px solid rgba(212,160,23,0.1);
+        padding: 2rem;
+        background: #080503;
+    }
+
+    .footer-inner {
+        max-width: 900px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .footer-name {
+        font-family: 'Cinzel', serif;
+        font-size: 0.85rem;
+        letter-spacing: 0.2em;
+        color: var(--gold);
+    }
+
+    .footer-sep { color: rgba(212,160,23,0.3); }
+
+    .footer-link {
+        font-family: 'Lato', sans-serif;
+        font-size: 0.85rem;
+        color: var(--text-muted);
+        text-decoration: none;
+        transition: color 0.2s;
+    }
+
+    .footer-link:hover { color: var(--gold); }
+
+    .footer-copy {
+        font-family: 'Lato', sans-serif;
+        font-size: 0.8rem;
+        color: #4a3a2a;
+    }
+</style>
