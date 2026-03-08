@@ -1,11 +1,11 @@
-# SET: Synchronized Email ToDo
+# Kheper
 
 **"Talk it into existence. Sync it to your day."**
 
 ---
 
 ## 📋 Overview
-**SET (Synchronized Email ToDo)** is a high-efficiency, cross-platform productivity tool designed to bridge the gap between spoken thoughts and actionable tasks. By leveraging **Natural Language Processing (NLP)**, SET listens to your voice messages and automatically transforms them into a structured daily schedule, synchronized across all your devices via a secure email-based account.
+**Kheper** is a high-efficiency, cross-platform productivity tool designed to bridge the gap between spoken thoughts and actionable tasks. By leveraging **Natural Language Processing (NLP)**, SET listens to your voice messages and automatically transforms them into a structured daily schedule, synchronized across all your devices via a secure email-based account.
 
 ---
 
@@ -35,8 +35,8 @@ Your email isn't just a login; it's the anchor of your productivity. Receive dai
 
 ---
 
-## 🎯 Why Choose SET?
-Most task managers fail because manual entry is a chore. **SET** removes the friction:
+## 🎯 Why Choose Kheper?
+Most task managers fail because manual entry is a chore. **kheper** removes the friction:
 * **Zero Typing:** Create a full day's plan while driving or walking.
 * **Context-Aware:** It understands *how* you speak, not just *what* you say.
 * **Unified:** One account, all platforms, total synchronization.
