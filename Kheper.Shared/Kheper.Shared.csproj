@@ -21,6 +21,12 @@
     <PackageReference Include="MimeKit" Version="4.15.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <MauiIcon Include="wwwroot\images\appicon.svg">
+      <Color>#3d2010</Color>
+    </MauiIcon>
+  </ItemGroup>
+
   
 
 </Project>
