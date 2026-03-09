@@ -7,27 +7,34 @@
 @inject NavigationState NavState 
 @implements IDisposable
 @inject Blazored.LocalStorage.ILocalStorageService LocalStorage
+@using Models
+@inject LanguageService LangService
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizerFactory LocalizerFactory
 
-<h1>Account Settings</h1>
+@if (L != null)
+{
+    <h1>@L["AccountSettings"]</h1>
 
-<div class="login-container">
-    <h3>Login or Register</h3>
-    
-    <input @bind="username" placeholder="Username" class="form-control mb-2" />
-    <input @bind="password" type="password" placeholder="Password" class="form-control mb-2" />
-    
-    <div class="button-group">
-        <button class="btn btn-primary" @onclick="HandleLogin">Login</button>
-        <button class="btn btn-secondary" @onclick="HandleRegister">Register</button>
+    <div class="login-container">
+        <h3>@L["LoginorRegister"]</h3>
+
+        <input @bind="username" placeholder="@L["placeholderUsername"]" class="form-control mb-2"/>
+        <input @bind="password" type="password" placeholder="@L["PlaceholderPassword"]" class="form-control mb-2"/>
+
+        <div class="button-group">
+            <button class="btn btn-primary" @onclick="HandleLogin">@L["Login"]</button>
+            <button class="btn btn-secondary" @onclick="HandleRegister">@L["Register"]</button>
+        </div>
+
+        @if (!string.IsNullOrEmpty(statusMessage))
+        {
+            <p class="mt-3" style="color: @(statusMessage.Contains(@L["success"]) ? "green" : "red")">
+                @statusMessage
+            </p>
+        }
     </div>
-
-    @if (!string.IsNullOrEmpty(statusMessage))
-    {
-        <p class="mt-3" style="color: @(statusMessage.Contains("בהצלחה") ? "green" : "red")">
-            @statusMessage
-        </p>
-    }
-</div>
+}
 
 @code {
     public class TodoTask
@@ -55,6 +62,20 @@
     private string statusMessage = string.Empty;
     private string? email;
     private string? emailPassword;
+    
+    private IStringLocalizer? L;
+
+    protected override void OnInitialized()
+    {
+        L = LocalizerFactory.Create("Resources.AppResources", "Kheper.Shared");
+        LangService.OnLanguageChanged += HandleLanguageChanged;
+    }
+
+    private void HandleLanguageChanged()
+    {
+        L = LocalizerFactory.Create("Resources.AppResources", "Kheper.Shared");
+        InvokeAsync(StateHasChanged);
+    }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -163,6 +184,7 @@
 
     public void Dispose()
     {
+        LangService.OnLanguageChanged -= HandleLanguageChanged;
         if (!NavManager.Uri.Contains("settings", StringComparison.OrdinalIgnoreCase))
             NavState.SetSettingsMode(false);
     }
