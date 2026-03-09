@@ -14,10 +14,13 @@
 
     <main>
         <div class="top-row px-4">
-            <button class="btn btn-link p-0 border-0" @onclick="GoToSettings" style="background: none;">
-                <img src="_content/Kheper.Shared/images/Settings.png" 
-                     alt="Settings" 
-                     style="width: 25px; height: 25px; cursor: pointer;" />
+            <button class="btn-settings" @onclick="GoToSettings">
+                <div class="settings-icon-wrap">
+                    <img src="_content/Kheper.Shared/images/settings-icon-v2.svg"
+                         class="settings-gear" alt=""/>
+                    <img src="_content/Kheper.Shared/images/bag.svg"
+                         class="settings-scarab" alt="Settings"/>
+                </div>
             </button>
         </div>
 
@@ -26,6 +29,49 @@
         </article>
     </main>
 </div>
+
+<style>
+    .btn-settings {
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 4px;
+    }
+
+    .settings-icon-wrap {
+        position: relative;
+        width: 38px;
+        height: 38px;
+        display: block;
+    }
+
+    .settings-gear {
+        position: absolute;
+        top: 0; left: 0;
+        width: 38px;
+        height: 38px;
+    }
+
+    .settings-scarab {
+        position: absolute;
+        top: 0; left: 0;
+        width: 38px;
+        height: 38px;
+    }
+
+    .btn-settings:hover .settings-gear {
+        animation: spin 2s linear infinite;
+    }
+
+    .btn-settings:active .settings-gear {
+        animation: spin 0.2s linear infinite;
+    }
+
+    @@keyframes spin {
+        from { transform: rotate(0deg); }
+        to   { transform: rotate(360deg); }
+    }
+</style>
 
 @code {
     private bool isDarkMode;

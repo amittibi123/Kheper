@@ -1,0 +1,108 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#f5d060"/>
+      <stop offset="50%" style="stop-color:#d4a017"/>
+      <stop offset="100%" style="stop-color:#a07010"/>
+    </linearGradient>
+    <linearGradient id="lapislazuli" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a3a6b"/>
+      <stop offset="50%" style="stop-color:#0f2550"/>
+      <stop offset="100%" style="stop-color:#071830"/>
+    </linearGradient>
+    <linearGradient id="turquoise" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#2a8c7a"/>
+      <stop offset="100%" style="stop-color:#1a5c4f"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Papyrus scroll body -->
+  <rect x="90" y="80" width="332" height="372" rx="6"
+        fill="url(#lapislazuli)" stroke="url(#goldGrad)" stroke-width="3"/>
+
+  <!-- Scroll top rod -->
+  <rect x="75" y="70" width="362" height="28" rx="14"
+        fill="url(#goldGrad)" filter="url(#glow)"/>
+  <!-- Rod end circles -->
+  <circle cx="90" cy="84" r="18" fill="url(#goldGrad)" filter="url(#glow)"/>
+  <circle cx="422" cy="84" r="18" fill="url(#goldGrad)" filter="url(#glow)"/>
+  <!-- Rod inner ring -->
+  <circle cx="90" cy="84" r="10" fill="#1a0e08"/>
+  <circle cx="422" cy="84" r="10" fill="#1a0e08"/>
+  <circle cx="90" cy="84" r="5" fill="url(#goldGrad)"/>
+  <circle cx="422" cy="84" r="5" fill="url(#goldGrad)"/>
+
+  <!-- Inner border decoration -->
+  <rect x="104" y="114" width="304" height="326" rx="3"
+        fill="none" stroke="url(#goldGrad)" stroke-width="1" opacity="0.25"/>
+
+  <!-- Header line -->
+  <line x1="104" y1="148" x2="408" y2="148" stroke="url(#goldGrad)" stroke-width="1.5" opacity="0.4"/>
+
+  <!-- Title area - small scarab icon top center -->
+  <ellipse cx="256" cy="131" rx="16" ry="10" fill="url(#goldGrad)" opacity="0.7"/>
+  <path d="M 248 126 C 242 122, 232 118, 224 120 C 218 122, 216 128, 220 132 C 224 136, 232 134, 240 130 Z"
+        fill="url(#goldGrad)" opacity="0.6"/>
+  <path d="M 264 126 C 270 122, 280 118, 288 120 C 294 122, 296 128, 292 132 C 288 136, 280 134, 272 130 Z"
+        fill="url(#goldGrad)" opacity="0.6"/>
+
+  
+
+  <!-- Item 1 - DONE (turquoise checkmark) -->
+  <!-- Checkbox -->
+  <rect x="118" y="168" width="28" height="28" rx="3"
+        fill="url(#turquoise)" stroke="url(#goldGrad)" stroke-width="2"/>
+  <!-- Checkmark -->
+  <path d="M 123 182 L 130 190 L 143 172"
+        fill="none" stroke="url(#goldGrad)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Text line (done - shorter, faded) -->
+  <line x1="162" y1="182" x2="340" y2="182" stroke="url(#goldGrad)" stroke-width="8" stroke-linecap="round" opacity="0.35"/>
+  <!-- Strikethrough -->
+  <line x1="162" y1="182" x2="340" y2="182" stroke="url(#goldGrad)" stroke-width="2" stroke-linecap="round" opacity="0.5"/>
+
+  <!-- Item 2 - DONE -->
+  <rect x="118" y="220" width="28" height="28" rx="3"
+        fill="url(#turquoise)" stroke="url(#goldGrad)" stroke-width="2"/>
+  <path d="M 123 234 L 130 242 L 143 224"
+        fill="none" stroke="url(#goldGrad)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <line x1="162" y1="234" x2="310" y2="234" stroke="url(#goldGrad)" stroke-width="8" stroke-linecap="round" opacity="0.35"/>
+  <line x1="162" y1="234" x2="310" y2="234" stroke="url(#goldGrad)" stroke-width="2" stroke-linecap="round" opacity="0.5"/>
+
+  <!-- Item 3 - PENDING (empty box) -->
+  <rect x="118" y="272" width="28" height="28" rx="3"
+        fill="none" stroke="url(#goldGrad)" stroke-width="2"/>
+  <line x1="162" y1="286" x2="380" y2="286" stroke="url(#goldGrad)" stroke-width="8" stroke-linecap="round" opacity="0.6"/>
+
+  <!-- Item 4 - PENDING -->
+  <rect x="118" y="324" width="28" height="28" rx="3"
+        fill="none" stroke="url(#goldGrad)" stroke-width="2"/>
+  <line x1="162" y1="338" x2="350" y2="338" stroke="url(#goldGrad)" stroke-width="8" stroke-linecap="round" opacity="0.6"/>
+
+  <!-- Item 5 - PENDING -->
+  <rect x="118" y="376" width="28" height="28" rx="3"
+        fill="none" stroke="url(#goldGrad)" stroke-width="2"/>
+  <line x1="162" y1="390" x2="320" y2="390" stroke="url(#goldGrad)" stroke-width="8" stroke-linecap="round" opacity="0.6"/>
+
+  <!-- Horizontal dividers between items -->
+  <line x1="110" y1="212" x2="402" y2="212" stroke="url(#goldGrad)" stroke-width="0.5" opacity="0.15"/>
+  <line x1="110" y1="264" x2="402" y2="264" stroke="url(#goldGrad)" stroke-width="0.5" opacity="0.15"/>
+  <line x1="110" y1="316" x2="402" y2="316" stroke="url(#goldGrad)" stroke-width="0.5" opacity="0.15"/>
+  <line x1="110" y1="368" x2="402" y2="368" stroke="url(#goldGrad)" stroke-width="0.5" opacity="0.15"/>
+
+  <!-- Bottom scroll rod -->
+  <rect x="75" y="434" width="362" height="28" rx="14"
+        fill="url(#goldGrad)" filter="url(#glow)"/>
+  <circle cx="90" cy="448" r="18" fill="url(#goldGrad)" filter="url(#glow)"/>
+  <circle cx="422" cy="448" r="18" fill="url(#goldGrad)" filter="url(#glow)"/>
+  <circle cx="90" cy="448" r="10" fill="#1a0e08"/>
+  <circle cx="422" cy="448" r="10" fill="#1a0e08"/>
+  <circle cx="90" cy="448" r="5" fill="url(#goldGrad)"/>
+  <circle cx="422" cy="448" r="5" fill="url(#goldGrad)"/>
+</svg>
