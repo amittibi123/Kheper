@@ -1,0 +1,113 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="120" height="120">
+    <defs>
+        <linearGradient id="goldGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" style="stop-color:#f5d060"/>
+            <stop offset="50%" style="stop-color:#d4a017"/>
+            <stop offset="100%" style="stop-color:#a07010"/>
+        </linearGradient>
+        <linearGradient id="turquoise" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#2a8c7a"/>
+            <stop offset="100%" style="stop-color:#1a5c4f"/>
+        </linearGradient>
+        <linearGradient id="lapislazuli" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#1a3a6b"/>
+            <stop offset="50%" style="stop-color:#0f2550"/>
+            <stop offset="100%" style="stop-color:#071830"/>
+        </linearGradient>
+        <filter id="glow">
+            <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+            <feMerge>
+                <feMergeNode in="coloredBlur"/>
+                <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+        </filter>
+    </defs>
+    <!-- LEFT WING - inside gear -->
+    <path d="M 250 272
+           C 238 260, 212 246, 182 232
+           C 152 218, 124 200, 110 178
+           C 100 161, 108 142, 126 137
+           C 146 131, 168 142, 188 156
+           C 206 169, 222 190, 234 214
+           C 240 227, 246 253, 250 269 Z"
+          fill="url(#lapislazuli)" stroke="url(#goldGrad)" stroke-width="2"/>
+
+    <!-- Wing feather lines LEFT -->
+    <clipPath id="lwc">
+        <path d="M 250 272 C 238 260, 212 246, 182 232 C 152 218, 124 200, 110 178 C 100 161, 108 142, 126 137 C 146 131, 168 142, 188 156 C 206 169, 222 190, 234 214 C 240 227, 246 253, 250 269 Z"/>
+    </clipPath>
+    <g clip-path="url(#lwc)" stroke="url(#goldGrad)" stroke-width="1" fill="none" opacity="0.45">
+        <path d="M 116 174 C 144 185, 172 194, 200 201"/>
+        <path d="M 112 188 C 140 198, 168 206, 196 211"/>
+        <path d="M 122 162 C 150 172, 178 180, 206 186"/>
+        <path d="M 136 150 C 162 160, 188 168, 214 174"/>
+    </g>
+
+    <!-- RIGHT WING -->
+    <path d="M 262 272
+           C 274 260, 300 246, 330 232
+           C 360 218, 388 200, 402 178
+           C 412 161, 404 142, 386 137
+           C 366 131, 344 142, 324 156
+           C 306 169, 290 190, 278 214
+           C 272 227, 266 253, 262 269 Z"
+          fill="url(#lapislazuli)" stroke="url(#goldGrad)" stroke-width="2"/>
+
+    <clipPath id="rwc">
+        <path d="M 262 272 C 274 260, 300 246, 330 232 C 360 218, 388 200, 402 178 C 412 161, 404 142, 386 137 C 366 131, 344 142, 324 156 C 306 169, 290 190, 278 214 C 272 227, 266 253, 262 269 Z"/>
+    </clipPath>
+    <g clip-path="url(#rwc)" stroke="url(#goldGrad)" stroke-width="1" fill="none" opacity="0.45">
+        <path d="M 396 174 C 368 185, 340 194, 312 201"/>
+        <path d="M 400 188 C 372 198, 344 206, 316 211"/>
+        <path d="M 390 162 C 362 172, 334 180, 306 186"/>
+        <path d="M 376 150 C 350 160, 324 168, 298 174"/>
+    </g>
+
+    <!-- BEETLE BODY - turquoise -->
+    <ellipse cx="256" cy="306" rx="46" ry="60" fill="url(#turquoise)" stroke="url(#goldGrad)" stroke-width="2"/>
+
+    <!-- Pronotum -->
+    <path d="M 216 270 Q 256 262 296 270 Q 296 283 256 286 Q 216 283 216 270 Z"
+          fill="#1a5c4f" stroke="url(#goldGrad)" stroke-width="1.5"/>
+
+    <!-- Center line -->
+    <line x1="256" y1="286" x2="256" y2="362" stroke="url(#goldGrad)" stroke-width="1.5" opacity="0.5"/>
+
+    <!-- Elytra lines -->
+    <path d="M 218 300 Q 256 296 294 300" fill="none" stroke="url(#goldGrad)" stroke-width="1" opacity="0.4"/>
+    <path d="M 215 320 Q 256 316 297 320" fill="none" stroke="url(#goldGrad)" stroke-width="1" opacity="0.4"/>
+    <path d="M 216 340 Q 256 336 296 340" fill="none" stroke="url(#goldGrad)" stroke-width="1" opacity="0.35"/>
+
+    <!-- HEAD -->
+    <path d="M 228 265 Q 256 254 284 265 Q 284 276 256 279 Q 228 276 228 265 Z"
+          fill="#1a5c4f" stroke="url(#goldGrad)" stroke-width="1.5"/>
+
+    <!-- Clypeus -->
+    <path d="M 238 266 L 234 260 M 248 263 L 246 257 M 256 262 L 256 255 M 264 263 L 266 257 M 274 266 L 278 260"
+          stroke="url(#goldGrad)" stroke-width="1.5" stroke-linecap="round" fill="none" opacity="0.7"/>
+
+    <!-- LEGS -->
+    <g stroke="url(#goldGrad)" stroke-width="2" stroke-linecap="round" fill="none">
+        <path d="M 216 280 C 198 274, 182 267, 167 257"/>
+        <path d="M 213 304 C 193 300, 174 296, 157 288"/>
+        <path d="M 215 328 C 196 333, 178 338, 161 347"/>
+        <path d="M 296 280 C 314 274, 330 267, 345 257"/>
+        <path d="M 299 304 C 319 300, 338 296, 355 288"/>
+        <path d="M 297 328 C 316 333, 334 338, 351 347"/>
+    </g>
+    <g fill="url(#goldGrad)" opacity="0.8">
+        <circle cx="166" cy="256" r="3"/>
+        <circle cx="155" cy="287" r="3"/>
+        <circle cx="159" cy="348" r="3"/>
+        <circle cx="346" cy="256" r="3"/>
+        <circle cx="356" cy="287" r="3"/>
+        <circle cx="352" cy="348" r="3"/>
+    </g>
+
+    <!-- Antennae -->
+    <path d="M 244 257 C 235 243, 228 231, 220 217" stroke="url(#goldGrad)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    <circle cx="219" cy="215" r="4" fill="url(#goldGrad)" filter="url(#glow)"/>
+    <path d="M 268 257 C 277 243, 284 231, 292 217" stroke="url(#goldGrad)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    <circle cx="293" cy="215" r="4" fill="url(#goldGrad)" filter="url(#glow)"/>
+
+</svg>

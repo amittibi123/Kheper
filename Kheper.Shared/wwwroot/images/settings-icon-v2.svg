@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#f5d060"/>
+      <stop offset="50%" style="stop-color:#d4a017"/>
+      <stop offset="100%" style="stop-color:#a07010"/>
+    </linearGradient>
+    <linearGradient id="turquoise" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#2a8c7a"/>
+      <stop offset="100%" style="stop-color:#1a5c4f"/>
+    </linearGradient>
+    <linearGradient id="lapislazuli" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a3a6b"/>
+      <stop offset="50%" style="stop-color:#0f2550"/>
+      <stop offset="100%" style="stop-color:#071830"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- GEAR - 16 teeth, proper gear shape -->
+  <g fill="url(#goldGrad)" filter="url(#glow)">
+    <!-- 16 gear teeth via rotation -->
+    <rect x="242" y="18" width="28" height="36" rx="4"/>
+    <rect x="242" y="18" width="28" height="36" rx="4" transform="rotate(22.5 256 256)"/>
+    <rect x="242" y="18" width="28" height="36" rx="4" transform="rotate(45 256 256)"/>
+    <rect x="242" y="18" width="28" height="36" rx="4" transform="rotate(67.5 256 256)"/>
+    <rect x="242" y="18" width="28" height="36" rx="4" transform="rotate(90 256 256)"/>
+    <rect x="242" y="18" width="28" height="36" rx="4" transform="rotate(112.5 256 256)"/>
+    <rect x="242" y="18" width="28" height="36" rx="4" transform="rotate(135 256 256)"/>
+    <rect x="242" y="18" width="28" height="36" rx="4" transform="rotate(157.5 256 256)"/>
+    <rect x="242" y="18" width="28" height="36" rx="4" transform="rotate(180 256 256)"/>
+    <rect x="242" y="18" width="28" height="36" rx="4" transform="rotate(202.5 256 256)"/>
+    <rect x="242" y="18" width="28" height="36" rx="4" transform="rotate(225 256 256)"/>
+    <rect x="242" y="18" width="28" height="36" rx="4" transform="rotate(247.5 256 256)"/>
+    <rect x="242" y="18" width="28" height="36" rx="4" transform="rotate(270 256 256)"/>
+    <rect x="242" y="18" width="28" height="36" rx="4" transform="rotate(292.5 256 256)"/>
+    <rect x="242" y="18" width="28" height="36" rx="4" transform="rotate(315 256 256)"/>
+    <rect x="242" y="18" width="28" height="36" rx="4" transform="rotate(337.5 256 256)"/>
+  </g>
+
+  <!-- Gear outer ring -->
+  <circle cx="256" cy="256" r="210" fill="url(#goldGrad)"/>
+  <!-- Gear inner cutout (dark) -->
+  <circle cx="256" cy="256" r="172" fill="#0e0906"/>
+  <!-- Inner ring decoration -->
+  <circle cx="256" cy="256" r="172" fill="none" stroke="url(#goldGrad)" stroke-width="3" opacity="0.5"/>
+  <circle cx="256" cy="256" r="162" fill="none" stroke="url(#goldGrad)" stroke-width="1" opacity="0.2"/>
+
+</svg>

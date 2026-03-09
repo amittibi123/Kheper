@@ -308,3 +308,10 @@ input:checked + .slider {
 input:checked + .slider:before {
     transform: translateX(26px);
 }
+
+article {
+    padding: 0 !important;
+    background: transparent;
+    overflow-y: auto;
+    height: calc(100vh - 3.5rem);
+}

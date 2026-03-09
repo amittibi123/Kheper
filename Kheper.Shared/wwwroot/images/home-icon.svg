@@ -1,0 +1,118 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#f5d060"/>
+      <stop offset="50%" style="stop-color:#d4a017"/>
+      <stop offset="100%" style="stop-color:#a07010"/>
+    </linearGradient>
+    <linearGradient id="lapislazuli" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a3a6b"/>
+      <stop offset="50%" style="stop-color:#0f2550"/>
+      <stop offset="100%" style="stop-color:#071830"/>
+    </linearGradient>
+    <linearGradient id="turquoise" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#2a8c7a"/>
+      <stop offset="100%" style="stop-color:#1a5c4f"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Pyramid shape - main structure -->
+  <polygon points="256,60 60,380 452,380"
+           fill="url(#lapislazuli)" stroke="url(#goldGrad)" stroke-width="3"/>
+
+  <!-- Pyramid inner lines (courses of stone) -->
+  <line x1="139" y1="240" x2="373" y2="240" stroke="url(#goldGrad)" stroke-width="1.5" opacity="0.3"/>
+  <line x1="100" y1="300" x2="412" y2="300" stroke="url(#goldGrad)" stroke-width="1.5" opacity="0.3"/>
+  <line x1="168" y1="180" x2="344" y2="180" stroke="url(#goldGrad)" stroke-width="1.5" opacity="0.3"/>
+  <line x1="198" y1="120" x2="314" y2="120" stroke="url(#goldGrad)" stroke-width="1.5" opacity="0.3"/>
+
+  <!-- Pyramid center vertical line -->
+  <line x1="256" y1="60" x2="256" y2="380" stroke="url(#goldGrad)" stroke-width="1" opacity="0.2"/>
+
+  <!-- Pyramid capstone - gold -->
+  <polygon points="256,60 224,118 288,118"
+           fill="url(#goldGrad)" filter="url(#glow)"/>
+
+  <!-- Sun disc above pyramid -->
+  <circle cx="256" cy="34" r="22" fill="url(#goldGrad)" filter="url(#glow)"/>
+  <circle cx="256" cy="34" r="16" fill="#c8900a"/>
+  <circle cx="256" cy="34" r="10" fill="url(#goldGrad)"/>
+  <!-- Sun rays -->
+  <g fill="url(#goldGrad)" opacity="0.8" filter="url(#glow)">
+    <polygon points="256,6 258,14 254,14"/>
+    <polygon points="256,62 258,54 254,54"/>
+    <polygon points="228,34 236,32 236,36"/>
+    <polygon points="284,34 276,32 276,36"/>
+    <polygon points="236,14 241,20 238,23"/>
+    <polygon points="276,54 271,48 274,45"/>
+    <polygon points="276,14 271,20 274,23"/>
+    <polygon points="236,54 241,48 238,45"/>
+  </g>
+
+  <!-- Base / ground -->
+  <rect x="50" y="378" width="412" height="28" rx="4"
+        fill="url(#goldGrad)" filter="url(#glow)"/>
+
+  <!-- Door/entrance at base center -->
+  <path d="M 226 378 L 226 340 Q 256 320 286 340 L 286 378 Z"
+        fill="url(#turquoise)" stroke="url(#goldGrad)" stroke-width="2"/>
+
+  <!-- Door arch decoration -->
+  <path d="M 226 340 Q 256 315 286 340"
+        fill="none" stroke="url(#goldGrad)" stroke-width="2" opacity="0.8"/>
+
+  <!-- Door center line -->
+  <line x1="256" y1="320" x2="256" y2="378" stroke="url(#goldGrad)" stroke-width="1.5" opacity="0.5"/>
+
+  <!-- Two obelisks flanking the entrance -->
+  <!-- Left obelisk -->
+  <polygon points="176,378 168,378 178,260 182,260"
+           fill="url(#goldGrad)" opacity="0.7"/>
+  <polygon points="178,260 182,260 180,248"
+           fill="url(#goldGrad)" opacity="0.9"/>
+  <!-- Right obelisk -->
+  <polygon points="336,378 344,378 334,260 330,260"
+           fill="url(#goldGrad)" opacity="0.7"/>
+  <polygon points="334,260 330,260 332,248"
+           fill="url(#goldGrad)" opacity="0.9"/>
+
+  <!-- Decorative hieroglyph line on base -->
+  <g fill="url(#lapislazuli)" opacity="0.6">
+    <circle cx="130" cy="392" r="4"/>
+    <circle cx="160" cy="392" r="3"/>
+    <circle cx="190" cy="392" r="4"/>
+    <circle cx="256" cy="392" r="5"/>
+    <circle cx="322" cy="392" r="4"/>
+    <circle cx="352" cy="392" r="3"/>
+    <circle cx="382" cy="392" r="4"/>
+  </g>
+
+  <!-- Palm trees flanking (simple) -->
+  <!-- Left palm -->
+  <line x1="96" y1="378" x2="96" y2="300" stroke="url(#goldGrad)" stroke-width="4" stroke-linecap="round" opacity="0.5"/>
+  <path d="M 96 300 C 80 285, 70 270, 78 260" fill="none" stroke="url(#goldGrad)" stroke-width="2.5" opacity="0.5" stroke-linecap="round"/>
+  <path d="M 96 300 C 96 282, 90 268, 100 260" fill="none" stroke="url(#goldGrad)" stroke-width="2.5" opacity="0.5" stroke-linecap="round"/>
+  <path d="M 96 300 C 112 285, 118 270, 110 260" fill="none" stroke="url(#goldGrad)" stroke-width="2.5" opacity="0.5" stroke-linecap="round"/>
+  <!-- Right palm -->
+  <line x1="416" y1="378" x2="416" y2="300" stroke="url(#goldGrad)" stroke-width="4" stroke-linecap="round" opacity="0.5"/>
+  <path d="M 416 300 C 400 285, 390 270, 398 260" fill="none" stroke="url(#goldGrad)" stroke-width="2.5" opacity="0.5" stroke-linecap="round"/>
+  <path d="M 416 300 C 416 282, 410 268, 420 260" fill="none" stroke="url(#goldGrad)" stroke-width="2.5" opacity="0.5" stroke-linecap="round"/>
+  <path d="M 416 300 C 432 285, 438 270, 430 260" fill="none" stroke="url(#goldGrad)" stroke-width="2.5" opacity="0.5" stroke-linecap="round"/>
+
+  <!-- Stars in sky -->
+  <g fill="url(#goldGrad)" opacity="0.5">
+    <circle cx="110" cy="100" r="2.5"/>
+    <circle cx="150" cy="60" r="2"/>
+    <circle cx="80" cy="150" r="1.5"/>
+    <circle cx="362" cy="100" r="2.5"/>
+    <circle cx="400" cy="60" r="2"/>
+    <circle cx="430" cy="150" r="1.5"/>
+  </g>
+</svg>

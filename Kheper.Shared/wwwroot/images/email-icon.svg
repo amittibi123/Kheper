@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#f5d060"/>
+      <stop offset="50%" style="stop-color:#d4a017"/>
+      <stop offset="100%" style="stop-color:#a07010"/>
+    </linearGradient>
+    <linearGradient id="lapislazuli" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a3a6b"/>
+      <stop offset="50%" style="stop-color:#0f2550"/>
+      <stop offset="100%" style="stop-color:#071830"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Envelope body - papyrus scroll style -->
+  <rect x="60" y="140" width="392" height="272" rx="8" ry="8"
+        fill="url(#lapislazuli)" stroke="url(#goldGrad)" stroke-width="3"/>
+
+  <!-- Envelope inner border decoration - Egyptian double line -->
+  <rect x="72" y="152" width="368" height="248" rx="4" ry="4"
+        fill="none" stroke="url(#goldGrad)" stroke-width="1" opacity="0.3"/>
+
+  <!-- Envelope flap (top triangle - open) -->
+  <path d="M 60 140 L 256 290 L 452 140 Z"
+        fill="url(#lapislazuli)" stroke="url(#goldGrad)" stroke-width="3"/>
+
+  <!-- Envelope flap fold lines -->
+  <path d="M 60 412 L 200 290" fill="none" stroke="url(#goldGrad)" stroke-width="2.5" opacity="0.6"/>
+  <path d="M 452 412 L 312 290" fill="none" stroke="url(#goldGrad)" stroke-width="2.5" opacity="0.6"/>
+
+  <!-- Center V fold line on flap -->
+  <path d="M 60 140 L 256 290 L 452 140"
+        fill="none" stroke="url(#goldGrad)" stroke-width="2" opacity="0.4"/>
+
+  <!-- Scarab wax seal in center -->
+  <circle cx="256" cy="290" r="44" fill="#1a0e08" stroke="url(#goldGrad)" stroke-width="3" filter="url(#glow)"/>
+  <circle cx="256" cy="290" r="38" fill="none" stroke="url(#goldGrad)" stroke-width="1" opacity="0.4"/>
+
+  <!-- Mini scarab inside seal -->
+  <!-- Body -->
+  <ellipse cx="256" cy="298" rx="18" ry="22" fill="url(#goldGrad)"/>
+  <!-- Wings -->
+  <path d="M 253 288 C 246 282, 234 276, 222 272 C 214 269, 208 264, 210 258 C 212 253, 220 252, 228 256 C 236 260, 244 268, 250 278 Z"
+        fill="url(#goldGrad)" opacity="0.8"/>
+  <path d="M 259 288 C 266 282, 278 276, 290 272 C 298 269, 304 264, 302 258 C 300 253, 292 252, 284 256 C 276 260, 268 268, 262 278 Z"
+        fill="url(#goldGrad)" opacity="0.8"/>
+  <!-- Head -->
+  <ellipse cx="256" cy="278" rx="11" ry="7" fill="url(#goldGrad)"/>
+
+  <!-- Egyptian border decorations - top -->
+  <line x1="60" y1="155" x2="452" y2="155" stroke="url(#goldGrad)" stroke-width="1" opacity="0.3"/>
+
+  <!-- Corner ankh decorations -->
+  <g opacity="0.5" stroke="url(#goldGrad)" stroke-width="2" fill="none">
+    <!-- top left ankh -->
+    <ellipse cx="90" cy="170" rx="9" ry="8"/>
+    <line x1="90" y1="178" x2="90" y2="196"/>
+    <line x1="82" y1="186" x2="98" y2="186"/>
+    <!-- top right ankh -->
+    <ellipse cx="422" cy="170" rx="9" ry="8"/>
+    <line x1="422" y1="178" x2="422" y2="196"/>
+    <line x1="414" y1="186" x2="430" y2="186"/>
+    <!-- bottom left ankh -->
+    <ellipse cx="90" cy="380" rx="9" ry="8"/>
+    <line x1="90" y1="388" x2="90" y2="406"/>
+    <line x1="82" y1="396" x2="98" y2="396"/>
+    <!-- bottom right ankh -->
+    <ellipse cx="422" cy="380" rx="9" ry="8"/>
+    <line x1="422" y1="388" x2="422" y2="406"/>
+    <line x1="414" y1="396" x2="430" y2="396"/>
+  </g>
+
+  <!-- Hieroglyph dots border bottom -->
+  <g fill="url(#goldGrad)" opacity="0.4">
+    <circle cx="130" cy="400" r="3"/>
+    <circle cx="155" cy="400" r="2"/>
+    <circle cx="180" cy="400" r="3"/>
+    <circle cx="205" cy="400" r="2"/>
+    <circle cx="256" cy="400" r="4"/>
+    <circle cx="307" cy="400" r="2"/>
+    <circle cx="332" cy="400" r="3"/>
+    <circle cx="357" cy="400" r="2"/>
+    <circle cx="382" cy="400" r="3"/>
+  </g>
+</svg>
