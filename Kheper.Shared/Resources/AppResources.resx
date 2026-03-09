@@ -1,64 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <root>
-  <!--
-    Microsoft ResX Schema
-
-    Version 2.0
-
-    The primary goals of this format is to allow a simple XML format
-    that is mostly human readable. The generation and parsing of the
-    various data types are done through the TypeConverter classes
-    associated with the data types.
-
-    Example:
-
-    ... ado.net/XML headers & schema ...
-    <resheader name="resmimetype">text/microsoft-resx</resheader>
-    <resheader name="version">2.0</resheader>
-    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
-    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
-    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
-    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
-    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
-        <value>[base64 mime encoded serialized .NET Framework object]</value>
-    </data>
-    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
-        <comment>This is a comment</comment>
-    </data>
-
-    There are any number of "resheader" rows that contain simple
-    name/value pairs.
-
-    Each data row contains a name, and value. The row also contains a
-    type or mimetype. Type corresponds to a .NET class that support
-    text/value conversion through the TypeConverter architecture.
-    Classes that don't support this are serialized and stored with the
-    mimetype Kheper.
-
-    The mimetype is used for serialized objects, and tells the
-    ResXResourceReader how to depersist the object. This is currently not
-    extensible. For a given mimetype the value must be set accordingly:
-
-    Note - application/x-microsoft.net.object.binary.base64 is the format
-    that the ResXResourceWriter will generate, however the reader can
-    read any of the formats listed below.
-
-    mimetype: application/x-microsoft.net.object.binary.base64
-    value   : The object must be serialized with
-            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
-            : and then encoded with base64 encoding.
-
-    mimetype: application/x-microsoft.net.object.soap.base64
-    value   : The object must be serialized with
-            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
-            : and then encoded with base64 encoding.
-
-    mimetype: application/x-microsoft.net.object.bytearray.base64
-    value   : The object must be serialized into a byte array
-            : using a System.ComponentModel.TypeConverter
-            : and then encoded with base64 encoding.
-    -->
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
     <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
     <xsd:element name="root" msdata:IsDataSet="true">
@@ -105,96 +46,80 @@
       </xsd:complexType>
     </xsd:element>
   </xsd:schema>
-  <resheader name="resmimetype">
-    <value>text/microsoft-resx</value>
-  </resheader>
-  <resheader name="version">
-    <value>2.0</value>
-  </resheader>
-  <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </resheader>
-  <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </resheader>
-  <data name="TodoTitle" xml:space="preserve">
-    <value>To-Do List</value>
-    <comment/>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+
+  <!-- Todo / Email / NLP / Settings -->
+  <data name="TodoTitle" xml:space="preserve"><value>To-Do List</value></data>
+  <data name="PlaceholderTask" xml:space="preserve"><value>Task name</value></data>
+  <data name="PlaceholderDesc" xml:space="preserve"><value>Description</value></data>
+  <data name="AddBtn" xml:space="preserve"><value>Add Task</value></data>
+  <data name="DeleteBtn" xml:space="preserve"><value>Delete</value></data>
+  <data name="ClearAllBtn" xml:space="preserve"><value>Clear All Tasks</value></data>
+  <data name="EmailTitle" xml:space="preserve"><value>Email Registration</value></data>
+  <data name="LabelEmail" xml:space="preserve"><value>Email address</value></data>
+  <data name="PlaceholderEmail" xml:space="preserve"><value>enter your email</value></data>
+  <data name="PlaceholderPassword" xml:space="preserve"><value>enter your password</value></data>
+  <data name="BtnRegister" xml:space="preserve"><value>Register &amp; Start</value></data>
+  <data name="BtnListening" xml:space="preserve"><value>Listening...</value></data>
+  <data name="ReceivedEmails" xml:space="preserve"><value>Received Emails</value></data>
+  <data name="NoEmails" xml:space="preserve"><value>No emails received yet</value></data>
+  <data name="LabelNLP" xml:space="preserve"><value>NLP Input</value></data>
+  <data name="BtnProcess" xml:space="preserve"><value>Process with NLP</value></data>
+  <data name="TaskStatus" xml:space="preserve"><value>Status: Processing</value></data>
+  <data name="Settings" xml:space="preserve"><value>Settings</value></data>
+  <data name="ToggleDarkMode" xml:space="preserve"><value>Toggle Dark Mode:</value></data>
+  <data name="SelectLanguage" xml:space="preserve"><value>Select Language</value></data>
+
+  <!-- Home / Landing Page -->
+  <data name="HeroTagline" xml:space="preserve"><value>Messages in. Tasks out.</value></data>
+  <data name="AboutSectionLabel" xml:space="preserve"><value>// ABOUT</value></data>
+  <data name="AboutTitle" xml:space="preserve"><value>What is Kheper?</value></data>
+  <data name="AboutText" xml:space="preserve"><value>Kheper is a smart productivity app that reads your messages — emails, WhatsApp, and more — and automatically extracts actionable tasks using NLP. No more copy-pasting. No more forgotten follow-ups.</value></data>
+  <data name="FeaturesSectionLabel" xml:space="preserve"><value>// FEATURES</value></data>
+  <data name="FeaturesTitle" xml:space="preserve"><value>What it does</value></data>
+  <data name="FeatureMultiSourceTitle" xml:space="preserve"><value>Multi-source</value></data>
+  <data name="FeatureMultiSourceDesc" xml:space="preserve"><value>Email, WhatsApp and more — all in one place.</value></data>
+  <data name="FeatureNLPTitle" xml:space="preserve"><value>NLP Extraction</value></data>
+  <data name="FeatureNLPDesc" xml:space="preserve"><value>Automatically detects tasks inside any message.</value></data>
+  <data name="FeatureMultilingualTitle" xml:space="preserve"><value>Multilingual</value></data>
+  <data name="FeatureMultilingualDesc" xml:space="preserve"><value>Supports Hebrew, English and many more languages.</value></data>
+  <data name="FeatureCrossplatformTitle" xml:space="preserve"><value>Cross-platform</value></data>
+  <data name="FeatureCrossplatformDesc" xml:space="preserve"><value>Windows, Android, iOS and macOS.</value></data>
+  <data name="FeaturePrivateTitle" xml:space="preserve"><value>Local &amp; Private</value></data>
+  <data name="FeaturePrivateDesc" xml:space="preserve"><value>Translation runs locally — your data stays yours.</value></data>
+  <data name="FeatureDotNetTitle" xml:space="preserve"><value>Built with .NET 10</value></data>
+  <data name="FeatureDotNetDesc" xml:space="preserve"><value>Blazor + MAUI for a fast, modern experience.</value></data>
+  <data name="PreviewSectionLabel" xml:space="preserve"><value>// PREVIEW</value></data>
+  <data name="PreviewTitle" xml:space="preserve"><value>Screenshots</value></data>
+  <data name="PreviewComingSoon" xml:space="preserve"><value>Coming Soon</value></data>
+  <data name="PreviewComingSoonSub" xml:space="preserve"><value>The app is still under active development</value></data>
+  <data name="DownloadSectionLabel" xml:space="preserve"><value>// DOWNLOAD</value></data>
+  <data name="DownloadTitle" xml:space="preserve"><value>Get Kheper</value></data>
+  <data name="DownloadSub" xml:space="preserve"><value>Not available yet — we're still building.</value></data>
+  <data name="PlatformWindows" xml:space="preserve"><value>Windows</value></data>
+  <data name="PlatformIOS" xml:space="preserve"><value>iOS</value></data>
+  <data name="PlatformAndroid" xml:space="preserve"><value>Android</value></data>
+  <data name="PlatformMacOS" xml:space="preserve"><value>macOS</value></data>
+  <data name="FooterBuiltWith" xml:space="preserve"><value>Built with .NET 10 · Blazor · MAUI</value></data>
+  <data name="AccountSettings" xml:space="preserve">
+    <value>Account Settings</value>
   </data>
-  <data name="PlaceholderTask" xml:space="preserve">
-    <value>Task name</value>
-    <comment/>
+  <data name="LoginorRegister" xml:space="preserve">
+    <value>Login or Register</value>
   </data>
-  <data name="PlaceholderDesc" xml:space="preserve">
-    <value>Description</value>
-    <comment/>
+  <data name="placeholderUsername" xml:space="preserve">
+    <value>Username</value>
   </data>
-  <data name="AddBtn" xml:space="preserve">
-    <value>Add Task</value>
-    <comment/>
+  <data name="Login" xml:space="preserve">
+    <value>Login</value>
   </data>
-  <data name="DeleteBtn" xml:space="preserve">
-    <value>Delete</value>
-    <comment/>
+  <data name="Register" xml:space="preserve">
+    <value>Register</value>
   </data>
-  <data name="ClearAllBtn" xml:space="preserve">
-    <value>Clear All Tasks</value>
-    <comment/>
-  </data>
-  <data name="EmailTitle" xml:space="preserve">
-    <value>Email Registration</value>
-    <comment/>
-  </data>
-  <data name="LabelEmail" xml:space="preserve">
-    <value>Email address</value>
-    <comment/>
-  </data>
-  <data name="PlaceholderEmail" xml:space="preserve">
-    <value>enter your email</value>
-    <comment/>
-  </data>
-  <data name="PlaceholderPassword" xml:space="preserve">
-    <value>enter your password</value>
-    <comment/>
-  </data>
-  <data name="BtnRegister" xml:space="preserve">
-    <value>Register &amp; Start</value>
-    <comment/>
-  </data>
-  <data name="BtnListening" xml:space="preserve">
-    <value>Listening...</value>
-    <comment/>
-  </data>
-  <data name="ReceivedEmails" xml:space="preserve">
-    <value>Received Emails</value>
-    <comment/>
-  </data>
-  <data name="NoEmails" xml:space="preserve">
-    <value>No emails received yet</value>
-    <comment/>
-  </data>
-  <data name="LabelNLP" xml:space="preserve">
-    <value>NLP Input</value>
-    <comment/>
-  </data>
-  <data name="BtnProcess" xml:space="preserve">
-    <value>Process with NLP</value>
-    <comment/>
-  </data>
-  <data name="TaskStatus" xml:space="preserve">
-    <value>Status: Processing</value>
-    <comment/>
-  </data>
-  <data name="Settings" xml:space="preserve">
-    <value>Settings</value>
-    <comment/>
-  </data>
-  <data name="ToggleDarkMode" xml:space="preserve">
-    <value>Toggle Dark Mode:</value>
-    <comment/>
-  </data>
-  <data name="SelectLanguage" xml:space="preserve">
-    <value>SelectLanguage</value>
-    <comment/>
+  <data name="success" xml:space="preserve">
+    <value>in success</value>
   </data>
 </root>
