@@ -170,3 +170,48 @@ input:checked + .slider {
 input:checked + .slider .knob {
   transform: translateX(26px);
 }
+
+/* העתק את כל הכללים האלה ל-app.css */
+
+body.dark-mode .bg-white,
+body.dark-mode .bg-light,
+body.dark-mode .breadcrumb,
+body.dark-mode .rounded,
+body.dark-mode .border {
+    background-color: #2a1a10 !important;
+    color: #e8dcc8 !important;
+    border-color: rgba(212, 160, 23, 0.4) !important;
+}
+
+body.dark-mode input,
+body.dark-mode textarea,
+body.dark-mode .form-control {
+    background-color: #1a0e08 !important;
+    border: 1px solid rgba(212, 160, 23, 0.3) !important;
+    color: #e8dcc8 !important;
+}
+
+body.dark-mode .list-group-item {
+    background-color: #1a0e08 !important;
+    border-color: rgba(212, 160, 23, 0.15) !important;
+    color: #e8dcc8 !important;
+}
+
+body.dark-mode .btn-primary {
+    background-color: #d4a017 !important;
+    border-color: #d4a017 !important;
+    color: #0e0906 !important;
+}
+
+body.dark-mode .input-group .btn-outline-secondary {
+    border-color: rgba(212, 160, 23, 0.4) !important;
+    color: #d4a017 !important;
+}
+
+body.dark-mode ::deep p,
+body.dark-mode ::deep span,
+body.dark-mode ::deep strong,
+body.dark-mode ::deep li,
+body.dark-mode ::deep div {
+    color: #e8dcc8 !important;
+}
