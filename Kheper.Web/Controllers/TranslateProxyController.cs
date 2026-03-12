@@ -60,8 +60,4 @@ public class TranslateRequest
     public string target { get; set; } = "en";
     public string format { get; set; } = "text";
 }
-```
 
-אחרי push תפתח בדפדפן:
-```
-https://kheper.onrender.com/api/translate/health
