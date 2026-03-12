@@ -16,29 +16,63 @@ public class TranslateProxyController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> Translate([FromBody] TranslateRequest request,
-                                               [FromHeader(Name = "X-API-Key")] string? apiKey)
+public async Task<IActionResult> Translate([FromBody] TranslateRequest request,
+                                           [FromHeader(Name = "X-API-Key")] string? apiKey)
+{
+    var validKey = Environment.GetEnvironmentVariable("TRANSLATE_API_KEY")
+                ?? _config["TRANSLATE_API_KEY"];
+
+    if (string.IsNullOrEmpty(apiKey) || apiKey != validKey)
+        return Unauthorized(new { error = "Invalid or missing API Key" });
+
+    var client = _httpClientFactory.CreateClient();
+
+    // שלב 1 - זיהוי שפה
+    Console.WriteLine($"[NLP] Step 1: Detecting language for: '{request.q}'");
+    var detectBody = new { q = request.q };
+    var detectResponse = await client.PostAsJsonAsync("http://localhost:5000/detect", detectBody);
+    var detectJson = await detectResponse.Content.ReadAsStringAsync();
+    using var detectDoc = JsonDocument.Parse(detectJson);
+    var detectedLang = detectDoc.RootElement[0].GetProperty("language").GetString() ?? "en";
+    Console.WriteLine($"[NLP] Step 1: Detected language: {detectedLang}");
+
+    // שלב 2 - תרגום לאנגלית
+    Console.WriteLine($"[NLP] Step 2: Translating to English...");
+    var translateBody = new { q = request.q, source = detectedLang, target = "en", format = "text" };
+    var translateResponse = await client.PostAsJsonAsync("http://localhost:5000/translate", translateBody);
+    var translateJson = await translateResponse.Content.ReadAsStringAsync();
+    using var translateDoc = JsonDocument.Parse(translateJson);
+    var enText = translateDoc.RootElement.GetProperty("translatedText").GetString() ?? request.q;
+    Console.WriteLine($"[NLP] Step 2: Translated: '{enText}'");
+
+    // שלב 3 - חילוץ משימות
+    Console.WriteLine($"[NLP] Step 3: Extracting tasks...");
+    var extractor = new TaskExtractor();
+    var tasks = extractor.ExtractTasks(enText);
+    Console.WriteLine($"[NLP] Step 3: Found {tasks.Count} tasks");
+
+    // שלב 4 - תרגום חזרה
+    var finalTasks = new List<object>();
+    foreach (var task in tasks)
     {
-        var validKey = Environment.GetEnvironmentVariable("TRANSLATE_API_KEY")
-                    ?? _config["TRANSLATE_API_KEY"];
+        string finalDescription = task.Description ?? "";
+        if (detectedLang != "en" && !string.IsNullOrEmpty(task.Description))
+        {
+            Console.WriteLine($"[NLP] Step 4: Translating back '{task.Description}' to {detectedLang}");
+            var backBody = new { q = task.Description, source = "en", target = detectedLang, format = "text" };
+            var backResponse = await client.PostAsJsonAsync("http://localhost:5000/translate", backBody);
+            var backJson = await backResponse.Content.ReadAsStringAsync();
+            using var backDoc = JsonDocument.Parse(backJson);
+            finalDescription = backDoc.RootElement.GetProperty("translatedText").GetString() ?? task.Description;
+            Console.WriteLine($"[NLP] Step 4: Result: '{finalDescription}'");
+        }
 
-        if (string.IsNullOrEmpty(apiKey) || apiKey != validKey)
-            return Unauthorized(new { error = "Invalid or missing API Key" });
-
-        // תרגום
-        var client = _httpClientFactory.CreateClient();
-        var response = await client.PostAsJsonAsync("http://localhost:5000/translate", request);
-        var json = await response.Content.ReadAsStringAsync();
-
-        using var doc = JsonDocument.Parse(json);
-        var enText = doc.RootElement.GetProperty("translatedText").GetString() ?? request.q;
-
-        // חילוץ משימות
-        var extractor = new TaskExtractor();
-        var tasks = extractor.ExtractTasks(enText);
-
-        return Ok(tasks);
+        finalTasks.Add(new { Description = finalDescription, TaskTime = task.TaskTime });
     }
+
+    Console.WriteLine($"[NLP] Done! Returning {finalTasks.Count} tasks");
+    return Ok(finalTasks);
+}
 
     [HttpGet("health")]
     public async Task<IActionResult> Health()
