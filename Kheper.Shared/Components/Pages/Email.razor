@@ -10,6 +10,7 @@
 @inject TaskService TaskService
 @inject IStringLocalizerFactory LocalizerFactory
 @inject LanguageService LangService
+@inject NlpService NlpService
 
 @if (L != null)
 {
@@ -43,8 +44,16 @@
     <div class="mb-3 mt-4">
         <label for="nlpInput" class="form-label">@L["LabelNLP"]</label>
         <input type="text" class="form-control" id="nlpInput" placeholder="@L["LabelNLP"]" @bind="Text">
-        <button class="btn btn-secondary mt-2" @onclick="() => NLP(Text)" disabled="@string.IsNullOrEmpty(Text)">
-            @L["BtnProcess"]
+        <button class="btn btn-secondary mt-2" @onclick="() => NLP(Text)" disabled="@(string.IsNullOrEmpty(Text) || isProcessing)">
+            @if (isProcessing)
+            {
+                <span class="spinner-border spinner-border-sm me-2"></span>
+                <span>@L["Processing"]</span>
+            }
+            else
+            {
+                @L["BtnProcess"]
+            }
         </button>
         <ul class="list-group mt-3">
             @if (tasks != null)
@@ -72,7 +81,9 @@
     private string Text = string.Empty;
     private List<dynamic> tasks = new List<dynamic>();
     private EmailListener? listener; 
-    private string? enText;          
+    private string? enText;
+
+    private bool isProcessing = false;
 
     protected override void OnInitialized()
     {
@@ -126,16 +137,18 @@
     {
         if (string.IsNullOrEmpty(text)) return;
 
-        enText = await TranslationService.TranslateToEnglishAsync(text);
-        var extractor = new Models.TaskExtractor();
-        var extractedStrings = extractor.ExtractTasks(enText ?? string.Empty);
+        isProcessing = true;
+        StateHasChanged();
+
+        var extractedStrings = await NlpService.ProcessTextAsync(text);
 
         foreach (var taskText in extractedStrings)
         {
-            TaskService.AddTask(taskText.Description ?? string.Empty, enText ?? string.Empty, taskText.TaskTime); 
+            TaskService.AddTask(taskText.Description ?? string.Empty, text, taskText.TaskTime);
         }
 
-        tasks = extractedStrings.Cast<dynamic>().ToList(); 
+        tasks = extractedStrings.Cast<dynamic>().ToList();
+        isProcessing = false;
         StateHasChanged();
     }
     

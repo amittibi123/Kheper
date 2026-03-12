@@ -29,6 +29,7 @@ public static class MauiProgram
         builder.Services.AddSingleton<LanguageService>();
         builder.Services.AddScoped<NavigationState>();
         builder.Services.AddSingleton<SyncService>();
+        builder.Services.AddScoped<NlpService>();
 
         builder.Services.AddHttpClient("LocalApi", client =>
         {

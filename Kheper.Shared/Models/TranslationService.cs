@@ -6,8 +6,6 @@ namespace Kheper.Shared.Models;
 public class TranslationService
 {
     private readonly HttpClient _httpClient = new HttpClient();
-    private const string BASE_URL = "https://kheper.onrender.com/api/translate";
-    private const string API_KEY = "Kh3p3r$Tr4nsl@t3#2026!xQmZvR9wYpNkJdF";
 
     public async Task<string> TranslateToEnglishAsync(string text)
     {
@@ -15,20 +13,20 @@ public class TranslationService
 
         try
         {
-            var requestBody = new
-            {
-                q = text,
-                source = "auto",
-                target = "en",
-                format = "text"
-            };
+            var isServer = Environment.GetEnvironmentVariable("DOTNET_RUNNING_IN_CONTAINER") == "true";
+            var baseUrl = isServer 
+                ? "http://localhost:5000/translate" 
+                : "https://kheper.onrender.com/api/translate";
 
+            var requestBody = new { q = text, source = "auto", target = "en", format = "text" };
             var json = JsonSerializer.Serialize(requestBody);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            using var request = new HttpRequestMessage(HttpMethod.Post, BASE_URL);
+            using var request = new HttpRequestMessage(HttpMethod.Post, baseUrl);
             request.Content = content;
-            request.Headers.Add("X-API-Key", API_KEY);
+
+            if (!isServer)
+                request.Headers.Add("X-API-Key", "Kh3p3r$Tr4nsl@t3#2026!xQmZvR9wYpNkJdF");
 
             var response = await _httpClient.SendAsync(request);
             var responseJson = await response.Content.ReadAsStringAsync();

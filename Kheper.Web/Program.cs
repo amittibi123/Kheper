@@ -16,6 +16,7 @@ builder.Services.AddSingleton<TaskService>();
 builder.Services.AddSingleton<LanguageService>();
 builder.Services.AddLocalization();
 builder.Services.AddScoped<NavigationState>();
+builder.Services.AddScoped<NlpService>();
 builder.Services.AddControllers();
 
 // ✅ הוספת CORS
