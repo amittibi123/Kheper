@@ -27,29 +27,20 @@ public class TranslateProxyController : ControllerBase
 
         var client = _httpClientFactory.CreateClient();
 
-        // שלב 1 - זיהוי שפה
-        Console.WriteLine($"[NLP] Step 1: Detecting language for: '{request.q}'");
-        var detectBody = new { q = request.q };
-        var detectResponse = await client.PostAsJsonAsync("http://localhost:5000/detect", detectBody);
-        var detectJson = await detectResponse.Content.ReadAsStringAsync();
-        using var detectDoc = JsonDocument.Parse(detectJson);
-        var detectedLang = detectDoc.RootElement[0].GetProperty("language").GetString() ?? "en";
-        Console.WriteLine($"[NLP] Step 1: Detected language: {detectedLang}");
-
-        // שלב 2 - תרגום לאנגלית
-        Console.WriteLine($"[NLP] Step 2: Translating to English...");
-        var translateBody = new { q = request.q, source = detectedLang, target = "en", format = "text" };
+        // תרגום לאנגלית
+        Console.WriteLine($"[NLP] Translating: '{request.q}'");
+        var translateBody = new { q = request.q, source = "auto", target = "en", format = "text" };
         var translateResponse = await client.PostAsJsonAsync("http://localhost:5000/translate", translateBody);
         var translateJson = await translateResponse.Content.ReadAsStringAsync();
         using var translateDoc = JsonDocument.Parse(translateJson);
         var enText = translateDoc.RootElement.GetProperty("translatedText").GetString() ?? request.q;
-        Console.WriteLine($"[NLP] Step 2: Translated: '{enText}'");
+        Console.WriteLine($"[NLP] Translated: '{enText}'");
 
-        // שלב 3 - חילוץ משימות
-        Console.WriteLine($"[NLP] Step 3: Extracting tasks...");
+        // חילוץ משימות
+        Console.WriteLine($"[NLP] Extracting tasks...");
         var extractor = new TaskExtractor();
         var tasks = extractor.ExtractTasks(enText);
-        Console.WriteLine($"[NLP] Step 3: Found {tasks.Count} tasks");
+        Console.WriteLine($"[NLP] Done! Found {tasks.Count} tasks");
 
         return Ok(tasks);
     }
