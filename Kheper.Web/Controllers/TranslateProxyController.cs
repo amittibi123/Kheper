@@ -24,7 +24,7 @@ public class TranslateProxyController : ControllerBase
             return Unauthorized(new { error = "Invalid or missing API Key" });
 
         var client = _httpClientFactory.CreateClient();
-        var response = await client.PostAsJsonAsync("http://localhost:5000/translate", request);
+        var response = await client.PostAsJsonAsync("https://kheper.onrender.com/api/translate", request);
         var content = await response.Content.ReadAsStringAsync();
 
         return Content(content, "application/json");
