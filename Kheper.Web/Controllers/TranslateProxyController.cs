@@ -23,11 +23,33 @@ public class TranslateProxyController : ControllerBase
         if (string.IsNullOrEmpty(apiKey) || apiKey != validKey)
             return Unauthorized(new { error = "Invalid or missing API Key" });
 
-        var client = _httpClientFactory.CreateClient();
-        var response = await client.PostAsJsonAsync("http://localhost:5000/translate", request);
-        var content = await response.Content.ReadAsStringAsync();
+        try
+        {
+            var client = _httpClientFactory.CreateClient();
+            client.Timeout = TimeSpan.FromSeconds(30);
+            var response = await client.PostAsJsonAsync("http://localhost:5000/translate", request);
+            var content = await response.Content.ReadAsStringAsync();
+            return Content(content, "application/json");
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new { error = ex.Message });
+        }
+    }
 
-        return Content(content, "application/json");
+    [HttpGet("health")]
+    public async Task<IActionResult> Health()
+    {
+        try
+        {
+            var client = _httpClientFactory.CreateClient();
+            var response = await client.GetAsync("http://localhost:5000/languages");
+            return Ok(new { status = "ok", libreTranslate = response.IsSuccessStatusCode });
+        }
+        catch (Exception ex)
+        {
+            return Ok(new { status = "error", message = ex.Message });
+        }
     }
 }
 
@@ -38,3 +60,8 @@ public class TranslateRequest
     public string target { get; set; } = "en";
     public string format { get; set; } = "text";
 }
+```
+
+אחרי push תפתח בדפדפן:
+```
+https://kheper.onrender.com/api/translate/health
