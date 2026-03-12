@@ -17,7 +17,7 @@ public class TranslateProxyController : ControllerBase
     public async Task<IActionResult> Translate([FromBody] TranslateRequest request,
                                                [FromHeader(Name = "X-API-Key")] string? apiKey)
     {
-        var validKey = Environment.GetEnvironmentVariable("TRANSLATE_API_KEY") 
+        var validKey = Environment.GetEnvironmentVariable("TRANSLATE_API_KEY")
                     ?? _config["TRANSLATE_API_KEY"];
 
         if (string.IsNullOrEmpty(apiKey) || apiKey != validKey)
@@ -38,9 +38,3 @@ public class TranslateRequest
     public string target { get; set; } = "en";
     public string format { get; set; } = "text";
 }
-```
-
-אחרי שתעשה `git push`, Render יעשה deploy אוטומטי והכתובת תהיה:
-```
-POST https://kheper.onrender.com/api/translate
-X-API-Key: Kh3p3r$Tr4nsl@t3#2026!xQmZvR9wYpNkJdF
