@@ -29,6 +29,11 @@
         <select id="langSelect" class="form-select" @onchange="OnLanguageSelected">
             <option value="en-US" selected="@(LangService.GetCurrentLanguage() == "en-US")">English</option>
             <option value="he-IL" selected="@(LangService.GetCurrentLanguage() == "he-IL")">עברית</option>
+            <option value="ar-SA" selected="@(LangService.GetCurrentLanguage() == "ar-SA")">العربية</option>
+            <option value="ru-RU" selected="@(LangService.GetCurrentLanguage() == "ru-RU")">Русский</option>
+            <option value="fr-FR" selected="@(LangService.GetCurrentLanguage() == "fr-FR")">Français</option>
+            <option value="de-DE" selected="@(LangService.GetCurrentLanguage() == "de-DE")">Deutsch</option>
+            <option value="nl-NL" selected="@(LangService.GetCurrentLanguage() == "nl-NL")">Nederlands</option>
         </select>
     </div>
 }

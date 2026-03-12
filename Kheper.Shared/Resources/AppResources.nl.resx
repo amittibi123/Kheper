@@ -1,0 +1,125 @@
+<?xml version='1.0' encoding='utf-8'?>
+<root xmlns:ns1="urn:schemas-microsoft-com:xml-msdata" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:schema id="root">
+    <xs:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xs:element name="root" ns1:IsDataSet="true">
+      <xs:complexType>
+        <xs:choice maxOccurs="unbounded">
+          <xs:element name="metadata">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="value" type="xsd:string" minOccurs="0" />
+              </xs:sequence>
+              <xs:attribute name="name" use="required" type="xsd:string" />
+              <xs:attribute name="type" type="xsd:string" />
+              <xs:attribute name="mimetype" type="xsd:string" />
+              <xs:attribute ref="xml:space" />
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="assembly">
+            <xs:complexType>
+              <xs:attribute name="alias" type="xsd:string" />
+              <xs:attribute name="name" type="xsd:string" />
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="data">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="value" type="xsd:string" minOccurs="0" ns1:Ordinal="1" />
+                <xs:element name="comment" type="xsd:string" minOccurs="0" ns1:Ordinal="2" />
+              </xs:sequence>
+              <xs:attribute name="name" type="xsd:string" use="required" ns1:Ordinal="1" />
+              <xs:attribute name="type" type="xsd:string" ns1:Ordinal="3" />
+              <xs:attribute name="mimetype" type="xsd:string" ns1:Ordinal="4" />
+              <xs:attribute ref="xml:space" />
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="resheader">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="value" type="xsd:string" minOccurs="0" ns1:Ordinal="1" />
+              </xs:sequence>
+              <xs:attribute name="name" type="xsd:string" use="required" />
+            </xs:complexType>
+          </xs:element>
+        </xs:choice>
+      </xs:complexType>
+    </xs:element>
+  </xs:schema>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+
+  
+  <data name="TodoTitle" xml:space="preserve"><value>Takenlijst</value></data>
+  <data name="PlaceholderTask" xml:space="preserve"><value>Taaknaam</value></data>
+  <data name="PlaceholderDesc" xml:space="preserve"><value>Beschrijving</value></data>
+  <data name="AddBtn" xml:space="preserve"><value>Taak toevoegen</value></data>
+  <data name="DeleteBtn" xml:space="preserve"><value>Verwijderen</value></data>
+  <data name="ClearAllBtn" xml:space="preserve"><value>Alle taken wissen</value></data>
+  <data name="EmailTitle" xml:space="preserve"><value>E-mailregistratie</value></data>
+  <data name="LabelEmail" xml:space="preserve"><value>E-mailadres</value></data>
+  <data name="PlaceholderEmail" xml:space="preserve"><value>Voer je e-mail in</value></data>
+  <data name="PlaceholderPassword" xml:space="preserve"><value>Voer je wachtwoord in</value></data>
+  <data name="BtnRegister" xml:space="preserve"><value>Registreren &amp; Starten</value></data>
+  <data name="BtnListening" xml:space="preserve"><value>Luisteren...</value></data>
+  <data name="ReceivedEmails" xml:space="preserve"><value>Ontvangen e-mails</value></data>
+  <data name="NoEmails" xml:space="preserve"><value>Nog geen e-mails ontvangen</value></data>
+  <data name="LabelNLP" xml:space="preserve"><value>NLP-invoer</value></data>
+  <data name="BtnProcess" xml:space="preserve"><value>Verwerken met NLP</value></data>
+  <data name="TaskStatus" xml:space="preserve"><value>Status: Verwerken</value></data>
+  <data name="Settings" xml:space="preserve"><value>Instellingen</value></data>
+  <data name="ToggleDarkMode" xml:space="preserve"><value>Donkere modus wisselen:</value></data>
+  <data name="SelectLanguage" xml:space="preserve"><value>Taal selecteren</value></data>
+
+  
+  <data name="HeroTagline" xml:space="preserve"><value>Berichten binnen. Taken buiten.</value></data>
+  <data name="AboutSectionLabel" xml:space="preserve"><value>// OVER</value></data>
+  <data name="AboutTitle" xml:space="preserve"><value>Wat is Kheper?</value></data>
+  <data name="AboutText" xml:space="preserve"><value>Kheper is een slimme productiviteitsapp die je berichten leest — e-mails, WhatsApp en meer — en automatisch taken extraheert. Geen kopiëren en plakken. Geen vergeten follow-ups.</value></data>
+  <data name="FeaturesSectionLabel" xml:space="preserve"><value>// FUNCTIES</value></data>
+  <data name="FeaturesTitle" xml:space="preserve"><value>Wat de app doet</value></data>
+  <data name="FeatureMultiSourceTitle" xml:space="preserve"><value>Meerdere bronnen</value></data>
+  <data name="FeatureMultiSourceDesc" xml:space="preserve"><value>E-mail, WhatsApp en meer — alles op één plek.</value></data>
+  <data name="FeatureNLPTitle" xml:space="preserve"><value>NLP-extractie</value></data>
+  <data name="FeatureNLPDesc" xml:space="preserve"><value>Detecteert automatisch taken in elk bericht.</value></data>
+  <data name="FeatureMultilingualTitle" xml:space="preserve"><value>Meertalig</value></data>
+  <data name="FeatureMultilingualDesc" xml:space="preserve"><value>Ondersteunt Hebreeuws, Engels en vele andere talen.</value></data>
+  <data name="FeatureCrossplatformTitle" xml:space="preserve"><value>Platformonafhankelijk</value></data>
+  <data name="FeatureCrossplatformDesc" xml:space="preserve"><value>Windows, Android, iOS en macOS.</value></data>
+  <data name="FeaturePrivateTitle" xml:space="preserve"><value>Lokaal &amp; Privé</value></data>
+  <data name="FeaturePrivateDesc" xml:space="preserve"><value>Vertaling werkt lokaal — uw gegevens blijven van u.</value></data>
+  <data name="FeatureDotNetTitle" xml:space="preserve"><value>Gebouwd met .NET 10</value></data>
+  <data name="FeatureDotNetDesc" xml:space="preserve"><value>Blazor + MAUI voor een snelle, moderne ervaring.</value></data>
+  <data name="PreviewSectionLabel" xml:space="preserve"><value>// VOORBEELD</value></data>
+  <data name="PreviewTitle" xml:space="preserve"><value>Schermafbeeldingen</value></data>
+  <data name="PreviewComingSoon" xml:space="preserve"><value>Binnenkort</value></data>
+  <data name="PreviewComingSoonSub" xml:space="preserve"><value>De app is nog in actieve ontwikkeling</value></data>
+  <data name="DownloadSectionLabel" xml:space="preserve"><value>// DOWNLOADEN</value></data>
+  <data name="DownloadTitle" xml:space="preserve"><value>Kheper downloaden</value></data>
+  <data name="DownloadSub" xml:space="preserve"><value>Nog niet beschikbaar — we bouwen nog.</value></data>
+  <data name="PlatformWindows" xml:space="preserve"><value>Windows</value></data>
+  <data name="PlatformIOS" xml:space="preserve"><value>iOS</value></data>
+  <data name="PlatformAndroid" xml:space="preserve"><value>Android</value></data>
+  <data name="PlatformMacOS" xml:space="preserve"><value>macOS</value></data>
+  <data name="FooterBuiltWith" xml:space="preserve"><value>Gebouwd met .NET 10 · Blazor · MAUI</value></data>
+  <data name="AccountSettings" xml:space="preserve">
+    <value>Accountinstellingen</value>
+  </data>
+  <data name="LoginorRegister" xml:space="preserve">
+    <value>Inloggen of registreren</value>
+  </data>
+  <data name="placeholderUsername" xml:space="preserve">
+    <value>Gebruikersnaam</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Inloggen</value>
+  </data>
+  <data name="Register" xml:space="preserve">
+    <value>Registreren</value>
+  </data>
+  <data name="success" xml:space="preserve">
+    <value>Succes</value>
+  </data>
+</root>
