@@ -7,11 +7,9 @@ using Kheper.Shared.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// הוספת שירותי Blazor
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
-// הוספת Blazored LocalStorage ושירותים נוספים
 builder.Services.AddBlazoredLocalStorage();
 builder.Services.AddScoped<TranslationService>();
 builder.Services.AddSingleton<TaskService>();
@@ -19,6 +17,17 @@ builder.Services.AddSingleton<LanguageService>();
 builder.Services.AddLocalization();
 builder.Services.AddScoped<NavigationState>();
 builder.Services.AddControllers();
+
+// ✅ הוספת CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyMethod()
+              .AllowAnyHeader();
+    });
+});
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite("Data Source=Kheper.db"));
@@ -30,7 +39,6 @@ builder.Services.AddHttpClient("LocalApi", client =>
 
 var app = builder.Build();
 
-// הגדרת צינור הטיפול בבקשות (Middleware Pipeline)
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error", createScopeForErrors: true);
@@ -40,50 +48,53 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
-// --- סדר ה-Middleware קריטי כאן ---
+app.UseRouting();
 
-app.UseRouting(); // 1. קודם כל מגדירים ניתוב
+// ✅ CORS חייב להיות לפני Antiforgery
+app.UseCors("AllowAll");
 
-app.UseAntiforgery(); // 2. אחרי הניתוב, מפעילים הגנת אנטי-פורג'רי (פעם אחת בלבד)
+app.UseAntiforgery();
 
-// 3. עכשיו אפשר למפות את הקצוות (Endpoints)
-app.MapControllers(); 
+app.MapControllers();
 
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode()
     .AddAdditionalAssemblies(typeof(Kheper.Shared.Components.Routes).Assembly);
 
-// הוספת משתמש לבדיקה אם ה-DB ריק
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    db.Database.EnsureCreated(); // יוצר את הקובץ אם הוא לא קיים
+    db.Database.EnsureCreated();
 }
 
-var libreTranslateProcess = new System.Diagnostics.Process
+var libreTranslatePath = builder.Configuration["LibreTranslate:ExecutablePath"] ?? "libretranslate";
+var isDocker = Environment.GetEnvironmentVariable("DOTNET_RUNNING_IN_CONTAINER") == "true";
+
+if (!isDocker)
 {
-    StartInfo = new System.Diagnostics.ProcessStartInfo
+    var libreTranslateProcess = new System.Diagnostics.Process
     {
-        FileName = builder.Configuration["LibreTranslate:ExecutablePath"] ?? "libretranslate",
-        Arguments = "--load-only en,he,ar,zh,es,fr,de,ru,pt,ja,ko,it,tr,pl,nl,vi,th,id,uk,fa,hi,sv",
-        UseShellExecute = false,
-        CreateNoWindow = true
+        StartInfo = new System.Diagnostics.ProcessStartInfo
+        {
+            FileName = libreTranslatePath,
+            Arguments = "--load-only en,he,ar,zh,es,fr,de,ru,pt,ja,ko,it,tr,pl,nl,vi,th,id,uk,fa,hi,sv",
+            UseShellExecute = false,
+            CreateNoWindow = true
+        }
+    };
+
+    try
+    {
+        libreTranslateProcess.Start();
+        app.Lifetime.ApplicationStopping.Register(() =>
+        {
+            try { libreTranslateProcess.Kill(); } catch { }
+        });
     }
-};
-
-try
-{
-    libreTranslateProcess.Start();
+    catch
+    {
+        Console.WriteLine("⚠️ LibreTranslate לא נמצא.");
+    }
 }
-catch
-{
-    Console.WriteLine("⚠️ LibreTranslate לא נמצא - תרגום לא יעבוד. ראה README להוראות התקנה.");
-}
-
-// סגירה כשהאפליקציה נסגרת
-app.Lifetime.ApplicationStopping.Register(() =>
-{
-    try { libreTranslateProcess.Kill(); } catch { }
-});
 
 app.Run();
