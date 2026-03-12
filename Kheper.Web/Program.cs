@@ -59,31 +59,34 @@ using (var scope = app.Services.CreateScope())
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     db.Database.EnsureCreated(); // יוצר את הקובץ אם הוא לא קיים
 }
+// LibreTranslate - רק אם לא כבר רץ (Docker מריץ אותו דרך entrypoint.sh)
+var libreTranslatePath = builder.Configuration["LibreTranslate:ExecutablePath"] ?? "libretranslate";
+var isDocker = Environment.GetEnvironmentVariable("DOTNET_RUNNING_IN_CONTAINER") == "true";
 
-var libreTranslateProcess = new System.Diagnostics.Process
+if (!isDocker)
 {
-    StartInfo = new System.Diagnostics.ProcessStartInfo
+    var libreTranslateProcess = new System.Diagnostics.Process
     {
-        FileName = builder.Configuration["LibreTranslate:ExecutablePath"] ?? "libretranslate",
-        Arguments = "--load-only en,he,ar,zh,es,fr,de,ru,pt,ja,ko,it,tr,pl,nl,vi,th,id,uk,fa,hi,sv",
-        UseShellExecute = false,
-        CreateNoWindow = true
+        StartInfo = new System.Diagnostics.ProcessStartInfo
+        {
+            FileName = libreTranslatePath,
+            Arguments = "--load-only en,he,ar,zh,es,fr,de,ru,pt,ja,ko,it,tr,pl,nl,vi,th,id,uk,fa,hi,sv",
+            UseShellExecute = false,
+            CreateNoWindow = true
+        }
+    };
+
+    try
+    {
+        libreTranslateProcess.Start();
+        app.Lifetime.ApplicationStopping.Register(() =>
+        {
+            try { libreTranslateProcess.Kill(); } catch { }
+        });
     }
-};
-
-try
-{
-    libreTranslateProcess.Start();
+    catch
+    {
+        Console.WriteLine("⚠️ LibreTranslate לא נמצא.");
+    }
 }
-catch
-{
-    Console.WriteLine("⚠️ LibreTranslate לא נמצא - תרגום לא יעבוד. ראה README להוראות התקנה.");
-}
-
-// סגירה כשהאפליקציה נסגרת
-app.Lifetime.ApplicationStopping.Register(() =>
-{
-    try { libreTranslateProcess.Kill(); } catch { }
-});
-
 app.Run();
