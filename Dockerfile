@@ -1,3 +1,16 @@
+FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
+WORKDIR /src
+
+COPY ["Kheper.Web/Kheper.Web.csproj", "Kheper.Web/"]
+COPY ["Kheper.App/Kheper.App.csproj", "Kheper.App/"]
+COPY ["Kheper.Shared/Kheper.Shared.csproj", "Kheper.Shared/"]
+
+RUN dotnet restore "Kheper.Web/Kheper.Web.csproj"
+
+COPY . .
+WORKDIR "/src/Kheper.Web"
+RUN dotnet publish "Kheper.Web.csproj" -c Release -o /app/publish
+
 FROM mcr.microsoft.com/dotnet/aspnet:10.0
 WORKDIR /app
 
