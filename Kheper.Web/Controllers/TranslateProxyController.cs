@@ -51,31 +51,6 @@ public class TranslateProxyController : ControllerBase
         var tasks = extractor.ExtractTasks(enText);
         Console.WriteLine($"[NLP] Step 3: Found {tasks.Count} tasks");
 
-        // שלב 4 - תרגום חזרה בקריאה אחת
-        if (detectedLang != "en")
-        {
-            Console.WriteLine($"[NLP] Step 4: Translating all tasks back to {detectedLang}...");
-    
-            // חיבור כל המשימות לטקסט אחד עם מפריד
-            var allDescriptions = string.Join(" | ", tasks.Select(t => t.Description));
-    
-            var backBody = new { q = allDescriptions, source = "en", target = detectedLang, format = "text" };
-            var backResponse = await client.PostAsJsonAsync("http://localhost:5000/translate", backBody);
-            var backJson = await backResponse.Content.ReadAsStringAsync();
-            using var backDoc = JsonDocument.Parse(backJson);
-            var translatedAll = backDoc.RootElement.GetProperty("translatedText").GetString() ?? allDescriptions;
-    
-            Console.WriteLine($"[NLP] Step 4: Result: '{translatedAll}'");
-    
-            // פיצול חזרה
-            var translatedParts = translatedAll.Split(" | ");
-            for (int i = 0; i < tasks.Count && i < translatedParts.Length; i++)
-            {
-                tasks[i].Description = translatedParts[i].Trim();
-            }
-        }
-
-        Console.WriteLine($"[NLP] Done! Returning {tasks.Count} tasks");
         return Ok(tasks);
     }
 
