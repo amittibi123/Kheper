@@ -51,27 +51,32 @@ public class TranslateProxyController : ControllerBase
         var tasks = extractor.ExtractTasks(enText);
         Console.WriteLine($"[NLP] Step 3: Found {tasks.Count} tasks");
 
-        // שלב 4 - תרגום חזרה במקביל
-        Console.WriteLine($"[NLP] Step 4: Translating back to {detectedLang} in parallel...");
-        var translationTasks = tasks.Select(async task =>
+        // שלב 4 - תרגום חזרה בקריאה אחת
+        if (detectedLang != "en")
         {
-            string finalDescription = task.Description ?? "";
-            if (detectedLang != "en" && !string.IsNullOrEmpty(task.Description))
+            Console.WriteLine($"[NLP] Step 4: Translating all tasks back to {detectedLang}...");
+    
+            // חיבור כל המשימות לטקסט אחד עם מפריד
+            var allDescriptions = string.Join(" | ", tasks.Select(t => t.Description));
+    
+            var backBody = new { q = allDescriptions, source = "en", target = detectedLang, format = "text" };
+            var backResponse = await client.PostAsJsonAsync("http://localhost:5000/translate", backBody);
+            var backJson = await backResponse.Content.ReadAsStringAsync();
+            using var backDoc = JsonDocument.Parse(backJson);
+            var translatedAll = backDoc.RootElement.GetProperty("translatedText").GetString() ?? allDescriptions;
+    
+            Console.WriteLine($"[NLP] Step 4: Result: '{translatedAll}'");
+    
+            // פיצול חזרה
+            var translatedParts = translatedAll.Split(" | ");
+            for (int i = 0; i < tasks.Count && i < translatedParts.Length; i++)
             {
-                var backBody = new { q = task.Description, source = "en", target = detectedLang, format = "text" };
-                var backResponse = await client.PostAsJsonAsync("http://localhost:5000/translate", backBody);
-                var backJson = await backResponse.Content.ReadAsStringAsync();
-                using var backDoc = JsonDocument.Parse(backJson);
-                finalDescription = backDoc.RootElement.GetProperty("translatedText").GetString() ?? task.Description;
-                Console.WriteLine($"[NLP] Step 4: '{task.Description}' → '{finalDescription}'");
+                tasks[i].Description = translatedParts[i].Trim();
             }
-            return new { Description = finalDescription, TaskTime = task.TaskTime };
-        });
+        }
 
-        var finalTasks = (await Task.WhenAll(translationTasks)).ToList<object>();
-
-        Console.WriteLine($"[NLP] Done! Returning {finalTasks.Count} tasks");
-        return Ok(finalTasks);
+        Console.WriteLine($"[NLP] Done! Returning {tasks.Count} tasks");
+        return Ok(tasks);
     }
 
     [HttpGet("health")]
