@@ -1,0 +1,125 @@
+<?xml version='1.0' encoding='utf-8'?>
+<root xmlns:ns1="urn:schemas-microsoft-com:xml-msdata" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:schema id="root">
+    <xs:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xs:element name="root" ns1:IsDataSet="true">
+      <xs:complexType>
+        <xs:choice maxOccurs="unbounded">
+          <xs:element name="metadata">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="value" type="xsd:string" minOccurs="0" />
+              </xs:sequence>
+              <xs:attribute name="name" use="required" type="xsd:string" />
+              <xs:attribute name="type" type="xsd:string" />
+              <xs:attribute name="mimetype" type="xsd:string" />
+              <xs:attribute ref="xml:space" />
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="assembly">
+            <xs:complexType>
+              <xs:attribute name="alias" type="xsd:string" />
+              <xs:attribute name="name" type="xsd:string" />
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="data">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="value" type="xsd:string" minOccurs="0" ns1:Ordinal="1" />
+                <xs:element name="comment" type="xsd:string" minOccurs="0" ns1:Ordinal="2" />
+              </xs:sequence>
+              <xs:attribute name="name" type="xsd:string" use="required" ns1:Ordinal="1" />
+              <xs:attribute name="type" type="xsd:string" ns1:Ordinal="3" />
+              <xs:attribute name="mimetype" type="xsd:string" ns1:Ordinal="4" />
+              <xs:attribute ref="xml:space" />
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="resheader">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="value" type="xsd:string" minOccurs="0" ns1:Ordinal="1" />
+              </xs:sequence>
+              <xs:attribute name="name" type="xsd:string" use="required" />
+            </xs:complexType>
+          </xs:element>
+        </xs:choice>
+      </xs:complexType>
+    </xs:element>
+  </xs:schema>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+
+  
+  <data name="TodoTitle" xml:space="preserve"><value>Liste de tâches</value></data>
+  <data name="PlaceholderTask" xml:space="preserve"><value>Nom de la tâche</value></data>
+  <data name="PlaceholderDesc" xml:space="preserve"><value>Description</value></data>
+  <data name="AddBtn" xml:space="preserve"><value>Ajouter une tâche</value></data>
+  <data name="DeleteBtn" xml:space="preserve"><value>Supprimer</value></data>
+  <data name="ClearAllBtn" xml:space="preserve"><value>Effacer toutes les tâches</value></data>
+  <data name="EmailTitle" xml:space="preserve"><value>Inscription par email</value></data>
+  <data name="LabelEmail" xml:space="preserve"><value>Adresse email</value></data>
+  <data name="PlaceholderEmail" xml:space="preserve"><value>Entrez votre email</value></data>
+  <data name="PlaceholderPassword" xml:space="preserve"><value>Entrez votre mot de passe</value></data>
+  <data name="BtnRegister" xml:space="preserve"><value>S'inscrire et commencer</value></data>
+  <data name="BtnListening" xml:space="preserve"><value>En écoute...</value></data>
+  <data name="ReceivedEmails" xml:space="preserve"><value>Emails reçus</value></data>
+  <data name="NoEmails" xml:space="preserve"><value>Aucun email reçu pour l'instant</value></data>
+  <data name="LabelNLP" xml:space="preserve"><value>Entrée NLP</value></data>
+  <data name="BtnProcess" xml:space="preserve"><value>Traiter avec NLP</value></data>
+  <data name="TaskStatus" xml:space="preserve"><value>Statut : Traitement</value></data>
+  <data name="Settings" xml:space="preserve"><value>Paramètres</value></data>
+  <data name="ToggleDarkMode" xml:space="preserve"><value>Activer le mode sombre :</value></data>
+  <data name="SelectLanguage" xml:space="preserve"><value>Choisir la langue</value></data>
+
+  
+  <data name="HeroTagline" xml:space="preserve"><value>Les messages entrent. Les tâches sortent.</value></data>
+  <data name="AboutSectionLabel" xml:space="preserve"><value>// À PROPOS</value></data>
+  <data name="AboutTitle" xml:space="preserve"><value>Qu'est-ce que Kheper ?</value></data>
+  <data name="AboutText" xml:space="preserve"><value>Kheper est une application de productivité intelligente qui lit vos messages — emails, WhatsApp et plus — et extrait automatiquement les tâches. Fini le copier-coller. Fini les suivis oubliés.</value></data>
+  <data name="FeaturesSectionLabel" xml:space="preserve"><value>// FONCTIONNALITÉS</value></data>
+  <data name="FeaturesTitle" xml:space="preserve"><value>Ce que fait l'application</value></data>
+  <data name="FeatureMultiSourceTitle" xml:space="preserve"><value>Multi-sources</value></data>
+  <data name="FeatureMultiSourceDesc" xml:space="preserve"><value>Email, WhatsApp et plus — tout en un seul endroit.</value></data>
+  <data name="FeatureNLPTitle" xml:space="preserve"><value>Extraction NLP</value></data>
+  <data name="FeatureNLPDesc" xml:space="preserve"><value>Détecte automatiquement les tâches dans chaque message.</value></data>
+  <data name="FeatureMultilingualTitle" xml:space="preserve"><value>Multilingue</value></data>
+  <data name="FeatureMultilingualDesc" xml:space="preserve"><value>Supporte l'hébreu, l'anglais et bien d'autres langues.</value></data>
+  <data name="FeatureCrossplatformTitle" xml:space="preserve"><value>Multiplateforme</value></data>
+  <data name="FeatureCrossplatformDesc" xml:space="preserve"><value>Windows, Android, iOS et macOS.</value></data>
+  <data name="FeaturePrivateTitle" xml:space="preserve"><value>Local et privé</value></data>
+  <data name="FeaturePrivateDesc" xml:space="preserve"><value>La traduction s'exécute localement — vos données restent les vôtres.</value></data>
+  <data name="FeatureDotNetTitle" xml:space="preserve"><value>Construit avec .NET 10</value></data>
+  <data name="FeatureDotNetDesc" xml:space="preserve"><value>Blazor + MAUI pour une expérience rapide et moderne.</value></data>
+  <data name="PreviewSectionLabel" xml:space="preserve"><value>// APERÇU</value></data>
+  <data name="PreviewTitle" xml:space="preserve"><value>Captures d'écran</value></data>
+  <data name="PreviewComingSoon" xml:space="preserve"><value>Bientôt disponible</value></data>
+  <data name="PreviewComingSoonSub" xml:space="preserve"><value>L'application est encore en développement actif</value></data>
+  <data name="DownloadSectionLabel" xml:space="preserve"><value>// TÉLÉCHARGEMENT</value></data>
+  <data name="DownloadTitle" xml:space="preserve"><value>Télécharger Kheper</value></data>
+  <data name="DownloadSub" xml:space="preserve"><value>Pas encore disponible — nous construisons encore.</value></data>
+  <data name="PlatformWindows" xml:space="preserve"><value>Windows</value></data>
+  <data name="PlatformIOS" xml:space="preserve"><value>iOS</value></data>
+  <data name="PlatformAndroid" xml:space="preserve"><value>Android</value></data>
+  <data name="PlatformMacOS" xml:space="preserve"><value>macOS</value></data>
+  <data name="FooterBuiltWith" xml:space="preserve"><value>Construit avec .NET 10 · Blazor · MAUI</value></data>
+  <data name="AccountSettings" xml:space="preserve">
+    <value>Paramètres du compte</value>
+  </data>
+  <data name="LoginorRegister" xml:space="preserve">
+    <value>Se connecter ou s'inscrire</value>
+  </data>
+  <data name="placeholderUsername" xml:space="preserve">
+    <value>Nom d'utilisateur</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Se connecter</value>
+  </data>
+  <data name="Register" xml:space="preserve">
+    <value>S'inscrire</value>
+  </data>
+  <data name="success" xml:space="preserve">
+    <value>Succès</value>
+  </data>
+</root>
