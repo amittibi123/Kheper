@@ -16,7 +16,7 @@ public class TranslationService
             var isServer = Environment.GetEnvironmentVariable("DOTNET_RUNNING_IN_CONTAINER") == "true";
             var baseUrl = isServer 
                 ? "http://localhost:5000/translate" 
-                : "https://kheper.onrender.com/api/translate";
+                : "https://kheper.taile5235d.ts.net/api/translate";
 
             var requestBody = new { q = text, source = "auto", target = "en", format = "text" };
             var json = JsonSerializer.Serialize(requestBody);
